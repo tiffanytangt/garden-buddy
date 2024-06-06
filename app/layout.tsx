@@ -16,7 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <head>
+      <title>Garden Buddy</title>
+      <link rel="icon" href="/app/icon.ico" sizes="any"/>
+    </head>
+    <body className={inter.className}>{children}</body>
     </html>
   );
 }
