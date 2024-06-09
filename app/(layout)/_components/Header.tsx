@@ -3,15 +3,18 @@
 import styles from '../header.module.css';
 import Link from 'next/link';
 import NavMenu from '@/app/(layout)/_components/NavMenu';
-import { Ref, RefObject, useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 
-function useClickOutside(ref: RefObject<any>, onClickOutside: () => void) {
+function useClickOutside(
+  ref: RefObject<HTMLElement>,
+  onClickOutside: () => void
+) {
   useEffect(() => {
     /**
      * Invoke Function onClick outside of element
      */
     function handleClickOutside(event: MouseEvent) {
-      if (ref.current && !ref.current.contains(event.target)) {
+      if (ref.current && !ref.current.contains(event.target as HTMLElement)) {
         onClickOutside();
       }
     }
@@ -19,7 +22,6 @@ function useClickOutside(ref: RefObject<any>, onClickOutside: () => void) {
     // Bind
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      // dispose
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [ref, onClickOutside]);
