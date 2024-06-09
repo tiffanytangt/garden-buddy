@@ -2,6 +2,7 @@
 
 import styles from '../header.module.css';
 import Link from 'next/link';
+import Image from 'next/image';
 import NavMenu from '@/app/(layout)/_components/NavMenu';
 import { RefObject, useEffect, useRef, useState } from 'react';
 
@@ -38,7 +39,7 @@ export default function Header() {
     <div className={styles.wrapper} ref={wrapperRef}>
       <header className={styles.header}>
         <Link href="/">
-          <img className={styles.logo} src="/logo-32x32.png" />
+          <Image alt="logo" className={styles.logo} src="/logo-32x32.png" width={32} height={32} />
         </Link>
         <div
           onClick={() => setMenuOpen(!menuOpen)}
