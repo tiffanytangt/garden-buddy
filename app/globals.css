@@ -97,6 +97,9 @@ body {
 
 a {
   color: inherit;
+}
+
+a.stealth {
   text-decoration: none;
 }
 
