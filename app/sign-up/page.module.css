@@ -1,50 +1,49 @@
 .form {
-    display: flex;
-    flex-direction: column;
-    max-width: 300px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  width: 100%;
 }
 
 .button {
-    /*width: 100%;*/
-    display: block;
-    margin: 10px;
-    background: seagreen;
-    color: white;
-    font-weight: lighter;
-    border: none;
-    border-radius: 5px;
-    height: 4em;
+  /*width: 100%;*/
+  display: block;
+  margin: 10px;
+  background: seagreen;
+  color: white;
+  font-weight: lighter;
+  border: none;
+  border-radius: 5px;
+  height: 4em;
 }
 
 .label {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    margin: 10px;
-    font-size: .8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 10px;
+  font-size: 0.8rem;
 
-    & > input {
-        height: 2rem;
-        padding: .5rem;
-        border-color: lightgray;
-        border-radius: 3px;
-
-    }
+  & > input {
+    height: 2rem;
+    padding: 0.5rem;
+    border-color: lightgray;
+    border-radius: 3px;
+  }
 }
 
 .error {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0 8rem;
-    min-height: 2rem;
-    position: absolute;
-    width: 100%;
-    background: darkgoldenrod;
-    top: 0;
-    left: 0;
-    font-size: small;
-    color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8rem;
+  min-height: 2rem;
+  position: absolute;
+  width: 100%;
+  background: darkgoldenrod;
+  top: 0;
+  left: 0;
+  font-size: small;
+  color: white;
 }
