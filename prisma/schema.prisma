@@ -13,11 +13,12 @@ model User {
   username        String?   @unique
   email           String?   @unique
   emailVerified   DateTime?
-  hashed_password String
   image           String?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
+  hashed_password String
   Account         Account?
+  Plants          Plant[]
   Session         Session[]
 }
 
@@ -41,6 +42,18 @@ model Account {
 
   @@unique([provider, providerAccountId])
   @@index([userId])
+}
+
+model Plant {
+  id          Int      @id @default(autoincrement())
+  userId      String
+  slug        String
+  displayName String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, slug])
 }
 
 model Session {
