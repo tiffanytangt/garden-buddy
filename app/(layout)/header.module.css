@@ -39,8 +39,8 @@
   height: 28px;
   background-image: radial-gradient(
     circle,
-    rgb(var(--foreground-rgb)) 2px,
-    transparent 3px
+    rgb(var(--foreground-rgb)) 15%,
+    transparent 20%
   );
   background-size: 100% 33.33%;
 }
@@ -55,7 +55,7 @@
   position: relative;
   padding: 1rem;
   border: 1px solid rgb(var(--callout-border-rgb));
-}
+  }
 
 .menuItem {
   margin: 5px;

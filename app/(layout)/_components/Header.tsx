@@ -4,29 +4,8 @@ import styles from '../header.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import NavMenu from '@/app/(layout)/_components/NavMenu';
-import { RefObject, useEffect, useRef, useState } from 'react';
-
-function useClickOutside(
-  ref: RefObject<HTMLElement>,
-  onClickOutside: () => void
-) {
-  useEffect(() => {
-    /**
-     * Invoke Function onClick outside of element
-     */
-    function handleClickOutside(event: MouseEvent) {
-      if (ref.current && !ref.current.contains(event.target as HTMLElement)) {
-        onClickOutside();
-      }
-    }
-
-    // Bind
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [ref, onClickOutside]);
-}
+import { useRef, useState } from 'react';
+import { useClickOutside } from '@/app/_hooks/clickOutside';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
