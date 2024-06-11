@@ -26,7 +26,7 @@ export default function Header() {
         </Link>
         <div
           onClick={() => setMenuOpen(!menuOpen)}
-          className={'border-none h-8 w-8'}
+          className="border-none h-8 w-8 hover:cursor-pointer"
           style={{
             backgroundImage:
               'radial-gradient(circle, white 15%, transparent 20%)',

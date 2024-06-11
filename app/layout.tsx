@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import styles from './page.module.css';
 import { SessionProvider } from 'next-auth/react';
 import Header from '@/app/(layout)/_components/Header';
 import { auth } from '@/lib/auth';
@@ -26,10 +25,10 @@ export default async function RootLayout({
         <title>Garden Buddy</title>
         <link rel="icon" href="/app/icon.ico" sizes="any" />
       </head>
-      <body className={`${inter.className} min-h-screen`}>
+      <body className={`${inter.className} min-h-screen bg-gradient-to-br from-gray-200 to-gray-50 dark:from-gray-950 dark:to-zinc-800`}>
         <SessionProvider session={session}>
           <Header />
-          <main className="bg-gradient-to-br from-gray-200 to-gray-50 dark:from-gray-950 dark:to-zinc-800 min-h-screen">
+          <main className="">
             {children}
           </main>
         </SessionProvider>
