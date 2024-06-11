@@ -1,3 +1,5 @@
+import colors from 'tailwindcss/colors'
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -6,6 +8,11 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    colors: {
+      ...colors,
+      'brand-green': '#4b7049',
+      'brand-green': '#4b7049',
+    },
     extend: {},
   },
   plugins: [],

@@ -21,15 +21,17 @@ export default async function RootLayout({
   const session = await auth();
 
   return (
-    <html lang="en">
+    <html lang="en" className="min-h-screen">
       <head>
         <title>Garden Buddy</title>
         <link rel="icon" href="/app/icon.ico" sizes="any" />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} min-h-screen`}>
         <SessionProvider session={session}>
           <Header />
-          <main className={styles.main}>{children}</main>
+          <main className="bg-gradient-to-br from-gray-200 to-gray-50 dark:from-gray-950 dark:to-zinc-800 min-h-screen">
+            {children}
+          </main>
         </SessionProvider>
       </body>
     </html>
