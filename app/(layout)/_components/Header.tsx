@@ -4,13 +4,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { useClickOutside } from '@/app/_hooks/clickOutside';
-import Menu from './Menu';
+import { EllipsisVerticalIcon } from '@heroicons/react/24/solid';
+import { useSession } from 'next-auth/react';
+import SideNav from './SideNav';
 
-export default function Header() {
+export default function Header({ children }: { children: React.ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const btnRef = useRef(null);
   useClickOutside([menuRef, btnRef], () => setMenuOpen(false));
+  const { data: session } = useSession();
 
   return (
     <>
@@ -24,21 +27,26 @@ export default function Header() {
             height={32}
           />
         </Link>
+
         <div
           onClick={() => setMenuOpen(!menuOpen)}
-          className="border-none h-8 w-8 hover:cursor-pointer"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle, white 15%, transparent 20%)',
-            backgroundSize: '100% 33.33%',
-          }}
+          className="sm:hidden"
           ref={btnRef}
-        />
-      </header>
-      <div className="relative">
-        <div className="absolute w-48 top-0 right-0 z-10" ref={menuRef}>
-          {menuOpen && <Menu />}
+        >
+          <EllipsisVerticalIcon className="size-9 text-white" />
         </div>
+      </header>
+      {/* Wraps nav and main content */}
+      <div className="flex flex-row-reverse sm:flex-row">
+        {session?.user && (
+          <div
+            ref={menuRef}
+            className={`sm:flex sm:static ${!menuOpen && 'hidden'} absolute sm:h-auto z-10`}
+          >
+            <SideNav />
+          </div>
+        )}
+        {children}
       </div>
     </>
   );
