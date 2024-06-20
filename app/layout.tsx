@@ -29,9 +29,9 @@ export default async function RootLayout({
         className={`${inter.className} bg-gradient-to-br from-gray-200 to-gray-50 dark:from-gray-950 dark:to-zinc-800`}
       >
         <SessionProvider session={session}>
-          <main className=''>
-            <Header>{children}</Header>
-          </main>
+          <Header />
+
+          <main className="mt-16 p-2 sm:ml-16 min-h-screen">{children}</main>
         </SessionProvider>
       </body>
     </html>
