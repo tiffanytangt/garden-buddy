@@ -45,7 +45,7 @@ export default function Header() {
       </header>
       <div
         ref={menuRef}
-        className={`z-10 fixed right-0 sm:left-0 top-0 sm:bottom-0 sm:flex ${!menuOpen && 'hidden'} xs:absolute mt-16`}
+        className={`z-10 fixed right-0 sm:right-auto sm:left-0 top-0 sm:bottom-0 sm:flex ${!menuOpen && 'hidden'} xs:absolute mt-16`}
       >
         <SideNav />
       </div>
