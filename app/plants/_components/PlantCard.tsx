@@ -5,7 +5,7 @@ import { useClickOutside } from '@/app/_hooks/clickOutside';
 import { Plant } from '@prisma/client';
 
 export interface PlantCardProps {
-  plant: Plant & { photo?: { location: string } };
+  plant: Plant & { photo: { location: string } | null };
   image?: string;
   children?: React.ReactNode;
 }
