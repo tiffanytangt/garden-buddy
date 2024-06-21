@@ -10,7 +10,10 @@ export default async function Plants() {
 
   if (!session?.user) return redirect('/');
 
-  const plants = db.plant.findMany({ where: { userId: session?.user.id } });
+  const plants = db.plant.findMany({
+    where: { userId: session?.user.id },
+    include: { photo: true },
+  });
 
   return (
     <>
@@ -21,8 +24,12 @@ export default async function Plants() {
 
         {/* temporary form for adding plants */}
         <div className="h-full p-4 border-2 border-dotted rounded-sm border-opacity-20">
-          <form className="h-full flex flex-col m-auto text-center gap-4 justify-center" action={addPlant}>
-            <input name="name" type="text" placeholder='name' />
+          <form
+            className="h-full flex flex-col m-auto text-center gap-4 justify-center"
+            action={addPlant}
+          >
+            <input name="name" type="text" placeholder="name" />
+            <input name="photo" type="file" accept=".png, .jpg, .jpeg" />
             <button className="p-2 bg-emerald-800  text-white" type="submit">
               Add Plant
             </button>

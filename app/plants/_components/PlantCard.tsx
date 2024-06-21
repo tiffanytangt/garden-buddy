@@ -5,14 +5,13 @@ import { useClickOutside } from '@/app/_hooks/clickOutside';
 import { Plant } from '@prisma/client';
 
 export interface PlantCardProps {
-  plant: Plant;
+  plant: Plant & { photo?: { location: string } };
   image?: string;
   children?: React.ReactNode;
 }
 
 export const PlantCard: React.FC<PlantCardProps> = ({
   plant,
-  image,
   children,
 }) => {
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
@@ -41,7 +40,7 @@ export const PlantCard: React.FC<PlantCardProps> = ({
       <div
         className="h-96 p-2 relative bg-white dark:bg-neutral-800 dark:text-white bg-cover bg-center"
         style={{
-          backgroundImage: `url("${image || '/plant-default.jpeg'}")`,
+          backgroundImage: `url("${plant.photo?.location || '/plant-default.jpeg'}")`,
         }}
       >
         {children}
