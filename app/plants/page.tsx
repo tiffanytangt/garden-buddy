@@ -1,24 +1,19 @@
-import db from '@/lib/db';
-import * as React from 'react';
 import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { PlantCard } from './_components/PlantCard';
 import { addPlant } from './_actions/addPlant';
+import { getPlants } from './_actions/getPlants';
+import { Button } from '@headlessui/react';
 
 export default async function Plants() {
   const session = await auth();
-
-  if (!session?.user) return redirect('/');
-
-  const plants = db.plant.findMany({
-    where: { userId: session?.user.id },
-    include: { photo: true },
-  });
+  if (!session?.user.id) return redirect('/');
+  const plants = await getPlants(session.user.id);
 
   return (
     <>
       <div className="container mx-auto grid md:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 gap-6 py-6">
-        {(await plants).map((plant) => {
+        {plants.map((plant) => {
           return <PlantCard key={plant.id} plant={plant} />;
         })}
 
@@ -30,9 +25,9 @@ export default async function Plants() {
           >
             <input name="name" type="text" placeholder="name" />
             <input name="photo" type="file" accept=".png, .jpg, .jpeg" />
-            <button className="p-2 bg-emerald-800  text-white" type="submit">
+            <Button className="p-2 bg-emerald-800 text-white" type="submit">
               Add Plant
-            </button>
+            </Button>
           </form>
         </div>
       </div>

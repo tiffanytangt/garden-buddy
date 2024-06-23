@@ -6,13 +6,15 @@ import { resizeImage } from '@/lib/resize';
 import { uploadImageToS3 } from '@/lib/s3';
 import { slugify } from '@/lib/util/slugify';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { revalidatePath } from 'next/cache';
 
 export async function addPlant(formData: FormData) {
   const session = await auth();
   const name = formData.get('name') as string;
-  const photo = formData.get('photo') as File | undefined;
+  const photo = formData.get('photo') as File;
 
   if (!name || !session) return;
+  console.log('photo', photo);
 
   const createPlant = async (opts: { dedupeSlug?: boolean } = {}) =>
     db.user.update({
@@ -23,7 +25,7 @@ export async function addPlant(formData: FormData) {
           create: {
             displayName: name,
             slug: slugify(name, { addHash: opts.dedupeSlug }),
-            ...(photo && {
+            ...(photo.size && {
               photo: {
                 create: {
                   location: await uploadImageToS3(
@@ -44,4 +46,5 @@ export async function addPlant(formData: FormData) {
       await createPlant({ dedupeSlug: true });
     }
   }
+  revalidatePath('/plants');
 }
