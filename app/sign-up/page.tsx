@@ -7,7 +7,7 @@ import { signup } from '@/app/sign-up/actions/signup';
 import styles from './page.module.css';
 
 export default function SignUp() {
-  const [errorMessage, dispatch] = useFormState(signup, undefined);
+  const [state, dispatch] = useFormState(signup, undefined);
 
   return (
     <form className={styles.form} action={dispatch}>
@@ -27,9 +27,9 @@ export default function SignUp() {
         Confirm Password
         <input name="confirm_password" type="password" />
       </label>
-      {errorMessage && (
+      {state?.errorMessage && (
         <div className={styles.error}>
-          <p dangerouslySetInnerHTML={{ __html: errorMessage }} />
+          <p dangerouslySetInnerHTML={{ __html: state.errorMessage }} />
         </div>
       )}
 

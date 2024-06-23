@@ -4,35 +4,40 @@ import db from '@/lib/db';
 import { saltAndHash } from '@/lib/password';
 
 export async function signup(
-  _currentState: string | undefined,
-  formData: {
-    get: (arg0: string) => string;
-  }
+  _currentState: { errorMessage?: string } | undefined,
+  formData: FormData
 ) {
+  const username = formData.get('username') as string | undefined;
+  const email = formData.get('email') as string | undefined;
+  const password = formData.get('password') as string | undefined;
+  if (!username || !email || !password) {
+    return { errorMessage: 'All fields are required' };
+  }
   if (formData.get('password') !== formData.get('confirm_password'))
-    return "Passwords don't match";
+    return { errorMessage: 'Passwords do not match' };
   try {
     let user;
     user = await db.user.findFirst({
       where: {
-        OR: [
-          { username: formData.get('username') },
-          { email: formData.get('email') },
-        ],
+        OR: [{ username }, { email }],
       },
     });
     if (user)
-      return 'User exists <a href="/api/auth/signin">Sign in instead?</a>';
+      return {
+        errorMessage:
+          'A user with that username or email already exists. Please try again.',
+      };
     user = await db.user.create({
       data: {
-        username: formData.get('username'),
-        email: formData.get('email'),
-        hashed_password: await saltAndHash(formData.get('password')),
+        username,
+        email,
+        hashed_password: await saltAndHash(password),
       },
     });
-
-    return user;
-  } catch (error) {
-    return error.message;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { errorMessage: error.message };
+    }
+    throw error;
   }
 }
