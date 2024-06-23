@@ -57,7 +57,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!user) {
           throw new AuthError('User not found');
         }
-        console.log('user', user);
         try {
           await verify(credentials.password as string, user.hashed_password);
         } catch (e) {
