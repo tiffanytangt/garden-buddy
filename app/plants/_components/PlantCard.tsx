@@ -5,6 +5,7 @@ import { useClickOutside } from '@/app/_hooks/clickOutside';
 import { Plant } from '@prisma/client';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/16/solid';
 import { Transition } from '@headlessui/react';
+import { deletePlant } from '../_actions/deletePlant';
 
 export interface PlantCardProps {
   plant: Plant & { photo: { location: string } | null };
@@ -36,13 +37,17 @@ export const PlantCard: React.FC<PlantCardProps> = ({ plant, children }) => {
         enterTo="translate-y-0 opacity-100"
         leaveFrom="translate-y-0 opacity-100"
         leaveTo="translate-y-3/4 opacity-0"
-        >
+      >
         <div
           ref={menuRef}
           className="w-full border border-gray-300 bg-opacity-90 bg-white text-black p-3"
         >
-          <div>Edit</div>
-          <div>Delete</div>
+          <button
+            className="w-full text-justify"
+            onClick={() => deletePlant(plant.id)}
+          >
+            Delete
+          </button>
         </div>
       </Transition>
       <div className="p-2 flex flex-row justify-between bg-emerald-800 dark:bg-emerald-950 opacity-90">
