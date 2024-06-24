@@ -1,5 +1,6 @@
 'use server';
 
+import { signIn } from '@/lib/auth';
 import db from '@/lib/db';
 import { saltAndHash } from '@/lib/password';
 
@@ -40,4 +41,9 @@ export async function signup(
     }
     throw error;
   }
+  await signIn('credentials', {
+    username: formData.get('username'),
+    password: formData.get('password'),
+    redirectTo: '/',
+  });
 }
