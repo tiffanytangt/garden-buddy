@@ -24,7 +24,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 w-full flex items-center justify-between bg-emerald-600 dark:bg-gradient-to-br dark:from-emerald-950 dark:to-emerald-900 p-2 z-20">
+      <header className="fixed h-16 w-full top-0 left-0 flex items-center justify-between bg-emerald-600 dark:bg-gradient-to-br dark:from-emerald-950 dark:to-emerald-900 px-2 z-20">
         <Link href="/">
           <Image
             alt="logo"
@@ -45,7 +45,7 @@ export default function Header() {
       </header>
       <div
         ref={menuRef}
-        className={`z-10 fixed right-0 sm:right-auto sm:left-0 top-0 sm:bottom-0 sm:flex ${!menuOpen && 'hidden'} xs:absolute mt-16`}
+        className={`sm:w-20 z-10 fixed right-0 sm:right-auto sm:left-0 top-0 sm:bottom-0 sm:flex ${!menuOpen && 'hidden'} xs:absolute mt-16`}
       >
         <SideNav />
       </div>

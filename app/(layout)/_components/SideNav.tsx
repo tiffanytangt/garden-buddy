@@ -57,7 +57,7 @@ const SideNav = () => {
   const { data: session } = useSession();
 
   return (
-    <nav className="h-full bg-white dark:bg-black dark:text-white sm:p-0 sm:flex sm:flex-col sm:justify-between">
+    <nav className="w-full h-full bg-white dark:bg-black dark:text-white sm:p-0 sm:flex sm:flex-col sm:justify-between">
       <ul className="text-xs sm:text-md flex flex-col sm:items-center">
         {mainItems.map((props) => (
           <SideNavItem

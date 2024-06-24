@@ -26,12 +26,12 @@ export default async function RootLayout({
         <link rel="icon" href="/app/icon.ico" sizes="any" />
       </head>
       <body
-        className={`${inter.className} bg-gradient-to-br from-gray-200 to-gray-50 dark:from-gray-950 dark:to-zinc-800`}
+        className={`${inter.className} flex flex-col items-center sm:ml-20 mt-16 bg-gradient-to-br from-gray-200 to-gray-50 dark:from-gray-950 dark:to-zinc-800`}
       >
         <SessionProvider session={session}>
           <Header />
 
-          <main className="mt-16 p-2 sm:ml-16 min-h-screen">{children}</main>
+          <main className="container p-2 min-h-screen">{children}</main>
         </SessionProvider>
       </body>
     </html>
