@@ -30,12 +30,12 @@ export const PlantCard: React.FC<PlantCardProps> = ({ plant, children }) => {
       {children}
       <Transition
         show={isContextMenuOpen}
-        enter="transition-all duration-300"
-        leave="transition-all duration-300"
-        enterFrom="scale-y-.6 .opacity-0"
-        enterTo="scale-y-100 .opacity-100"
-        leaveFrom="scale-y-100 .opacity-100"
-        leaveTo="scale-y-.6 o.pacity-0"
+        enter="transition-all duration-200"
+        leave="transition-all duration-200"
+        enterFrom="translate-y-3/4 opacity-0"
+        enterTo="translate-y-0 opacity-100"
+        leaveFrom="translate-y-0 opacity-100"
+        leaveTo="translate-y-3/4 opacity-0"
         >
         <div
           ref={menuRef}
