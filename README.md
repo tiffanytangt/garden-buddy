@@ -20,7 +20,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 - Deployment pipeline
 
 #### What's the goal?
-A responsive, easy-to-use gardening assistant to help track of gardening tasks and plant progress.
+A responsive, easy-to-use gardening assistant to help track gardening tasks, record plant progress, and integrates weather/plant data to guide gardening activities.
 
 ## Built With
 <img height="55" alt="image" src="https://github.com/tiffanytangt/garden-buddy/assets/12769383/1f60741d-dcb2-494f-9c72-ac65bb12c379">
