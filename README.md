@@ -9,6 +9,19 @@ Preview the app [here](http://garden-buddy.tiffanytang.tech)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+#### What I'm working on:
+- Tech choices: library and infrastructure choices
+- App Foundations: data model and CRUD ops for plants
+  
+#### What's next?
+- Organizing plants into collections
+- Reminders and Journal Entries
+- Calendar
+- Deployment pipeline
+
+#### What's the goal?
+A responsive, easy-to-use gardening assistant to help track of gardening tasks and plant progress.
+
 ## Built With
 <img height="55" alt="image" src="https://github.com/tiffanytangt/garden-buddy/assets/12769383/1f60741d-dcb2-494f-9c72-ac65bb12c379">
 <img height="50" alt="image" src="https://github.com/tiffanytangt/garden-buddy/assets/12769383/95773d85-7a74-49a1-9a43-feccad1893be">
