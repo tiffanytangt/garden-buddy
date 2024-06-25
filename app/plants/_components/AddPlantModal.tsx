@@ -48,7 +48,7 @@ export default AddPlantModal;
 import { useFormStatus } from 'react-dom';
 import { addPlant } from '../_actions/addPlant';
 
-export const AddPlantFormFields = ({ onCancel }: { onCancel: () => void }) => {
+const AddPlantFormFields = ({ onCancel }: { onCancel: () => void }) => {
   const { pending } = useFormStatus();
 
   return (
@@ -97,5 +97,3 @@ export const AddPlantFormFields = ({ onCancel }: { onCancel: () => void }) => {
     </div>
   );
 };
-
-// export default AddPlantFormFields;

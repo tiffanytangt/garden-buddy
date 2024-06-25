@@ -26,7 +26,7 @@ const mainItems: MenuItem[] = [
   { id: 2, text: 'Plants', icon: Squares2X2Icon, href: '/plants' },
   { id: 3, text: 'Calendar', icon: CalendarDaysIcon, href: '/calendar' },
   { id: 4, text: 'Reminders', icon: BellAlertIcon, href: '/schedule' },
-  { id: 5, text: 'Journal', icon: BookOpenIcon, href: '/schedule' },
+  { id: 5, text: 'Journal', icon: BookOpenIcon, href: '/journal' },
 ];
 
 const getAuthItems = (isLoggedIn: boolean): MenuItem[] => {

@@ -1,5 +1,4 @@
 import NextAuth, {
-  AuthError,
   CredentialsSignin,
   DefaultSession,
 } from 'next-auth';
@@ -42,25 +41,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({
       credentials: {
-        username: { label: 'Username', type: 'text',  },
+        username: { label: 'Username', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
       authorize: async function (credentials) {
         let user = null;
-        if (!credentials.username) throw new AuthError('Username is required');
-        if (!credentials.password) throw new AuthError('Password is required');
+        if (!credentials.username || !credentials.password)
+          throw new CredentialsSignin('Password is required');
 
         user = await db.user.findUnique({
           where: { username: credentials.username as string },
         });
 
         if (!user) {
-          throw new AuthError('User not found');
+          throw new CredentialsSignin('Invalid Login');
         }
         try {
           await verify(credentials.password as string, user.hashed_password);
         } catch (e) {
-          throw new CredentialsSignin('Incorrect password');
+          throw new CredentialsSignin('Invalid Login');
         }
 
         // return user object with the their profile data

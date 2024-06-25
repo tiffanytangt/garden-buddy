@@ -14,7 +14,6 @@ export async function addPlant(formData: FormData) {
   const photo = formData.get('photo') as File;
 
   if (!name || !session) return;
-  console.log('photo', photo);
 
   const createPlant = async (opts: { dedupeSlug?: boolean } = {}) =>
     db.user.update({
@@ -41,10 +40,10 @@ export async function addPlant(formData: FormData) {
   try {
     await createPlant();
   } catch (e: unknown) {
-    console.log(e);
     if ((e as PrismaClientKnownRequestError).code == 'P2002') {
       await createPlant({ dedupeSlug: true });
     }
+    throw e
   }
   revalidatePath('/plants');
 }

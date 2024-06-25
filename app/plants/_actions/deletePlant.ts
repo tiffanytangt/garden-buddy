@@ -21,10 +21,10 @@ export async function deletePlant(plantId: number) {
 
     // TODO cascade deletes and delete s3 photo
   } catch (e: unknown) {
-    console.log(e);
     if ((e as PrismaClientKnownRequestError).code == 'P2001') {
       throw new Error('Plant not found');
     }
+    throw e
   }
   revalidatePath('/plants');
 }

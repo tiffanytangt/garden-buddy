@@ -20,11 +20,7 @@ export const uploadImageToS3 = async (file: File): Promise<string> => {
     Body: (await file.arrayBuffer()) as Buffer,
   };
 
-  try {
-    await s3Client.send(new PutObjectCommand(uploadParams));
-  } catch (err) {
-    console.error('Error uploading file:', err);
-  }
+  await s3Client.send(new PutObjectCommand(uploadParams));
 
   return `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${key}`;
 };
