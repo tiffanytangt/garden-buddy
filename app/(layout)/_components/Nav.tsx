@@ -73,9 +73,9 @@ const NavBar = () => {
         <div
           ref={menuRef}
           className="absolute right-0 bottom-0 w-full flex flex-col items-center
-          border border-gray-300 bg-white text-black divide-y divide-gray-200"
+          border border-gray-300 dark:border-gray-700 bg-white text-black  dark:bg-black dark:text-white divide-y divide-gray-200 dark: divide-gray-800"
         >
-          <ChevronDownIcon className="h-8 w-full text-emerald-700 my-1" onClick={() => setIsMenuOpen(false)} />
+          <ChevronDownIcon className="h-8 w-full text-emerald-700 dark:text-emerald-400 my-1" onClick={() => setIsMenuOpen(false)} />
             <div className='w-full flex flex-col gap-6 p-5 '>
 
           {[...desktopItems, ...getAuthItems(!!session?.user)].map((props) => {
