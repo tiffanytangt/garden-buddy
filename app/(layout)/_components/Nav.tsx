@@ -69,29 +69,33 @@ const NavBar = () => {
 
   return (
     <>
-      <SlideMenu isOpen={isMenuOpen} slideDirection='up'>
+      <SlideMenu isOpen={isMenuOpen} slideDirection="up">
         <div
           ref={menuRef}
           className="absolute right-0 bottom-0 w-full flex flex-col items-center
-          border border-gray-300 dark:border-gray-700 bg-white text-black  dark:bg-black dark:text-white divide-y divide-gray-200 dark: divide-gray-800"
+          border-y border-gray-300 dark:border-gray-700 bg-white dark:bg-black divide-y divide-gray-200 dark:divide-gray-800"
         >
-          <ChevronDownIcon className="h-8 w-full text-emerald-700 dark:text-emerald-400 my-1" onClick={() => setIsMenuOpen(false)} />
-            <div className='w-full flex flex-col gap-6 p-5 '>
-
-          {[...desktopItems, ...getAuthItems(!!session?.user)].map((props) => {
-            const IconComponent = props.icon as React.ComponentType<{
-              className: string;
-            }>;
-            return (
-              <li key={props.id} className="flex items-center w-full gap-1">
-                <IconComponent className="size-6" />
-                <Link href={props.href} passHref>
-                  {props.text}
-                </Link>
-              </li>
-            );
-          })}
-            </div>
+          <ChevronDownIcon
+            className="h-8 w-full text-emerald-700 dark:text-emerald-400 my-1"
+            onClick={() => setIsMenuOpen(false)}
+          />
+          <div className="w-full flex flex-col gap-6 p-5 ">
+            {[...desktopItems, ...getAuthItems(!!session?.user)].map(
+              (props) => {
+                const IconComponent = props.icon as React.ComponentType<{
+                  className: string;
+                }>;
+                return (
+                  <li key={props.id} className="flex items-center w-full gap-1">
+                    <IconComponent className="size-6" />
+                    <Link href={props.href} passHref>
+                      {props.text}
+                    </Link>
+                  </li>
+                );
+              }
+            )}
+          </div>
         </div>
       </SlideMenu>
       <nav className="w-full sm:h-full bg-white dark:bg-black dark:text-white sm:p-0 flex flex-col sm:justify-between divide-y divide-gray-100">
