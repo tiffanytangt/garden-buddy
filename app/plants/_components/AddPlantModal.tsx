@@ -24,8 +24,8 @@ function AddPlantModal() {
         <PlusCircleIcon className="size-16" />
       </Button>
       <Dialog open={isOpen} className="relative z-50" onClose={() => null}>
-        <div className="fixed inset-0 flex flex-col items-center justify-center ">
-          <DialogPanel className="h-full sm:h-auto flex flex-col items-center justify-center max-w-lg border bg-white dark:bg-black dark:text-white p-10">
+        <div className="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
+          <DialogPanel className="h-1/2 sm:h-auto flex flex-col items-center justify-center max-w-lg border bg-white dark:bg-black dark:text-white p-10">
             <DialogTitle>New plant</DialogTitle>
             <form
               action={async (formData) => {
@@ -69,8 +69,8 @@ const AddPlantFormFields = ({ onCancel }: { onCancel: () => void }) => {
         <Input
           name="photo"
           type="file"
-          accept=".png, .jpg, .jpeg,;capture=camera"
-          capture="environment"
+          accept="image/*,application/pdf;capture=camera"
+          // capture="environment"
           className="block w-full"
         />
       </Field>

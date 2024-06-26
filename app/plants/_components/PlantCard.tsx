@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { useClickOutside } from '@/app/_hooks/clickOutside';
+import { useClickOutside } from '@/app/(shared)/_hooks/clickOutside';
 import { Plant } from '@prisma/client';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/16/solid';
-import { Transition } from '@headlessui/react';
 import { deletePlant } from '../_actions/deletePlant';
+import SlideMenu from '@/app/(layout)/_components/SlideMenu';
 
 export interface PlantCardProps {
   plant: Plant & { photo: { location: string } | null };
@@ -29,15 +29,7 @@ export const PlantCard: React.FC<PlantCardProps> = ({ plant, children }) => {
       }}
     >
       {children}
-      <Transition
-        show={isContextMenuOpen}
-        enter="transition-all duration-200"
-        leave="transition-all duration-200"
-        enterFrom="translate-y-3/4 opacity-0"
-        enterTo="translate-y-0 opacity-100"
-        leaveFrom="translate-y-0 opacity-100"
-        leaveTo="translate-y-3/4 opacity-0"
-      >
+      <SlideMenu slideDirection='up' isOpen={isContextMenuOpen}>
         <div
           ref={menuRef}
           className="w-full border border-gray-300 bg-opacity-90 bg-white text-black p-3"
@@ -49,7 +41,7 @@ export const PlantCard: React.FC<PlantCardProps> = ({ plant, children }) => {
             Delete
           </button>
         </div>
-      </Transition>
+      </SlideMenu>
       <div className="p-2 flex flex-row justify-between bg-emerald-800 dark:bg-emerald-950 opacity-90">
         <p className="text-white text-sm">{plant.displayName}</p>
         <div

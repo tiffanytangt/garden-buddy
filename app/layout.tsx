@@ -18,6 +18,7 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
 
+  
   return (
     <html lang="en">
       <head>
@@ -25,7 +26,7 @@ export default async function RootLayout({
         <link rel="icon" href="/app/icon.ico" sizes="any" />
       </head>
       <body
-        className={`${inter.className} size-full min-h-screen flex sm:pl-20 pt-16 bg-gradient-to-br from-gray-200 to-gray-50 dark:from-gray-950 dark:to-zinc-800`}
+        className={`${inter.className} size-full min-h-screen flex sm:pl-20 sm:pt-16 bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-950 dark:to-zinc-800`}
       >
         <SessionProvider session={session}>
           <Header />
