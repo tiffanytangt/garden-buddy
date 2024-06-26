@@ -5,7 +5,7 @@ import { useClickOutside } from '@/app/(shared)/_hooks/clickOutside';
 import { Plant } from '@prisma/client';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/16/solid';
 import { deletePlant } from '../_actions/deletePlant';
-import SlideMenu from '@/app/(layout)/_components/SlideMenu';
+import SlideMenu from '@/app/(shared)/_components/SlideMenu';
 
 export interface PlantCardProps {
   plant: Plant & { photo: { location: string } | null };
