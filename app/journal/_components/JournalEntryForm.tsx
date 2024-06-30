@@ -15,6 +15,7 @@ import { ExclamationCircleIcon } from '@heroicons/react/16/solid';
 import { addJournalEntry } from '../_actions/addJournalEntry';
 import { ErrorMessage } from '@hookform/error-message';
 import PlantDropdown from './PlantDropdown';
+import { redirect } from 'next/navigation';
 
 type Props = {
   plants: GetPlantsResult[];
@@ -45,7 +46,8 @@ export default function JournalEntryForm({ plants }: Props) {
         if ((await trigger()) == false) return;
         // We need to set plantId because the Combobox field is not actually an input
         formData.set('plantId', getValues('plantId'));
-        return addJournalEntry(formData);
+        const entry = await addJournalEntry(formData);
+        if (entry?.plantId) redirect('/plants/' + entry.plantId);
       }}
     >
       <Field disabled={disableFields}>
