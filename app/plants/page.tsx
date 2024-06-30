@@ -7,7 +7,7 @@ import AddPlantModal from './_components/AddPlantModal';
 export default async function Plants() {
   const session = await auth();
   if (!session?.user.id) return redirect('/');
-  const plants = await getPlants(session.user.id);
+  const plants = await getPlants(session.user.id, { sortBy: 'createdAt' });
 
   return (
     <div
@@ -15,7 +15,7 @@ export default async function Plants() {
       grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 py-6"
     >
       <div className="size-44 p-4 border-4 border-dashed border-emerald-800 border-opacity-10 rounded-sm content-center text-center">
-        <AddPlantModal  />
+        <AddPlantModal />
       </div>
       {plants.map((plant) => {
         return <PlantCard key={plant.id} plant={plant} />;
