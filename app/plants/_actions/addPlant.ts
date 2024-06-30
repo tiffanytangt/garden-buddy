@@ -43,7 +43,7 @@ export async function addPlant(formData: FormData) {
     if ((e as PrismaClientKnownRequestError).code == 'P2002') {
       await createPlant({ dedupeSlug: true });
     }
-    throw e
+    throw e;
   }
   revalidatePath('/plants');
 }

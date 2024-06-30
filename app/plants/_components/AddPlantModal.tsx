@@ -12,7 +12,7 @@ import { Button, Input } from '@headlessui/react';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 
-function AddPlantModal() {
+const AddPlantModal = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -41,7 +41,7 @@ function AddPlantModal() {
       </Dialog>
     </>
   );
-}
+};
 
 export default AddPlantModal;
 

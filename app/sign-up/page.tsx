@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import { useFormState } from 'react-dom';
-import { signup } from '@/app/sign-up/actions/signup';
+import { signup } from '@/app/sign-up/_actions/signup';
 import styles from './page.module.css';
 import { XMarkIcon } from '@heroicons/react/16/solid';
 
@@ -11,9 +11,12 @@ export default function SignUp() {
   const [state, dispatch] = useFormState(signup, undefined);
 
   return (
-    <div className='flex place-content-center items-center h-full'>
-      <button className='sm:hidden absolute top-4 right-4' onClick={() => window.history.back()}>
-        <XMarkIcon className='size-8' />
+    <div className="flex place-content-center items-center h-full">
+      <button
+        className="sm:hidden absolute top-4 right-4"
+        onClick={() => window.history.back()}
+      >
+        <XMarkIcon className="size-8" />
       </button>
       <form className={styles.form} action={dispatch}>
         <label className={styles.label}>

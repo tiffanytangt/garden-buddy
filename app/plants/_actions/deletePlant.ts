@@ -24,7 +24,7 @@ export async function deletePlant(plantId: number) {
     if ((e as PrismaClientKnownRequestError).code == 'P2001') {
       throw new Error('Plant not found');
     }
-    throw e
+    throw e;
   }
   revalidatePath('/plants');
 }
