@@ -41,7 +41,7 @@ export async function addJournalEntry(formData: FormData) {
       },
     });
   try {
-    await insert();
+    return await insert();
   } catch (e: unknown) {
     throw e;
   }

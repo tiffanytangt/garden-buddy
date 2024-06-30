@@ -3,6 +3,15 @@ import Image from 'next/image';
 import { redirect } from 'next/navigation';
 
 export default async function Page({ params }: { params: { slug: string } }) {
+  if (!isNaN(+params.slug)) {
+    const plant = await db.plant.findFirstOrThrow({
+      where: {
+        id: +params.slug,
+      },
+    });
+    redirect('/plants/' + plant.slug);
+  }
+
   const plant = await db.plant.findFirstOrThrow({
     where: {
       slug: params.slug,
