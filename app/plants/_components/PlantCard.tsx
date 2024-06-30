@@ -6,18 +6,22 @@ import { Plant } from '@prisma/client';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/16/solid';
 import { deletePlant } from '../_actions/deletePlant';
 import SlideMenu from '@/app/(shared)/_components/SlideMenu';
+import UpdatePlantModal from './UpdatePlantModal';
+import { Button } from '@headlessui/react';
 
-export interface PlantCardProps {
+export type PlantCardProps = React.PropsWithChildren<{
   plant: Plant & { photo: { location: string } | null };
-  image?: string;
-  children?: React.ReactNode;
-}
+}>;
 
 export const PlantCard: React.FC<PlantCardProps> = ({ plant, children }) => {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
-  useClickOutside([menuRef, buttonRef], () => setIsContextMenuOpen(false));
+  const modalRef = useRef<HTMLDivElement>(null);
+  useClickOutside([menuRef, buttonRef, modalRef], () =>
+    setIsContextMenuOpen(false)
+  );
 
   return (
     <div
@@ -29,30 +33,31 @@ export const PlantCard: React.FC<PlantCardProps> = ({ plant, children }) => {
       }}
     >
       {children}
-      <SlideMenu slideDirection='up' isOpen={isContextMenuOpen}>
+      <SlideMenu slideDirection="up" isOpen={isContextMenuOpen}>
         <div
           ref={menuRef}
-          className="w-full border border-gray-300 bg-opacity-90 bg-white text-black p-3"
+          className="w-full border border-gray-300 bg-opacity-90 bg-white text-black p-3 flex flex-col items-start"
         >
-          <button
-            className="w-full text-justify"
-            onClick={() => deletePlant(plant.id)}
-          >
-            Delete
-          </button>
+          <Button onClick={() => setIsEditModalOpen(true)}>Edit</Button>
+          <Button onClick={() => deletePlant(plant.id)}>Delete</Button>
         </div>
       </SlideMenu>
-      <div className="p-2 flex flex-row justify-between bg-emerald-800 dark:bg-emerald-950 opacity-90">
+      <div
+        ref={buttonRef}
+        className="p-2 flex flex-row justify-between bg-emerald-800 dark:bg-emerald-950 opacity-90"
+        onClick={() => setIsContextMenuOpen(!isContextMenuOpen)}
+      >
         <p className="text-white text-sm">{plant.displayName}</p>
-        <div
-          ref={buttonRef}
-          className="size-4 hover:cursor-pointer"
-          onClick={() => setIsContextMenuOpen(!isContextMenuOpen)}
-        >
+        <div className="size-4 hover:cursor-pointer">
           {!isContextMenuOpen && <ChevronUpIcon className="size-4/>" />}
           {isContextMenuOpen && <ChevronDownIcon className="size-4/>" />}
         </div>
       </div>
+      <UpdatePlantModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        plant={plant}
+      />
     </div>
   );
 };
