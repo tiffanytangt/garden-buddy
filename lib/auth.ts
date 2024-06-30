@@ -1,12 +1,10 @@
-import NextAuth, {
-  CredentialsSignin,
-  DefaultSession,
-} from 'next-auth';
+import NextAuth, { CredentialsSignin, DefaultSession } from 'next-auth';
 
 import Credentials from 'next-auth/providers/credentials';
 import { verify } from '@/lib/password';
 import db from '@/lib/db';
 import { PrismaAdapter } from '@auth/prisma-adapter';
+import { User as _DbUser } from '@prisma/client';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   debug: true,
@@ -74,9 +72,7 @@ declare module 'next-auth' {
    * The shape of the user object returned in the OAuth providers' `profile` callback,
    * or the second parameter of the `session` callback, when using a database.
    */
-  interface User {
-    username: string;
-  }
+  interface User extends _DbUser {}
   /**
    * The shape of the account object returned in the OAuth providers' `account` callback,
    * Usually contains information about the provider being used, like OAuth tokens (`access_token`, etc).
@@ -94,6 +90,7 @@ declare module 'next-auth' {
      * you need to add them back into the newly declared interface.
      */
     user: {
+      id: string;
       username: string;
     } & DefaultSession['user'];
   }
