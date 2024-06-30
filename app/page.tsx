@@ -8,8 +8,14 @@ export default async function Home() {
   const session = await auth();
 
   return (
-    <>
-      <Image alt="logo" src="/logo-white-circle-200x200.png" width={150} height={150} className='mx-auto' />
+    <div className="h-full flex flex-col justify-center">
+      <Image
+        alt="logo"
+        src="/logo-white-circle-200x200.png"
+        width={150}
+        height={150}
+        className="mx-auto"
+      />
       <div className="m-12 text-4xl sm:text-6xl text-center font-black text-emerald-800 dark:text-warmGray-50 opacity-80">
         <TodGreeting name={session?.user.username ?? undefined} />
       </div>
@@ -49,6 +55,6 @@ export default async function Home() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

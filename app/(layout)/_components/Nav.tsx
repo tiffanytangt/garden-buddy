@@ -14,7 +14,6 @@ import {
   UserPlusIcon,
   ChevronDownIcon,
 } from '@heroicons/react/16/solid';
-import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import NavItem from './NavItem';
 import { useClickOutside } from '@/app/(shared)/_hooks/clickOutside';
@@ -27,7 +26,7 @@ interface MenuItem {
   href: string;
 }
 const mainItems: MenuItem[] = [
-  { id: 2, text: 'Home', icon: HomeIcon, href: '/' },
+  { id: 1, text: 'Home', icon: HomeIcon, href: '/' },
   { id: 2, text: 'Plants', icon: Squares2X2Icon, href: '/plants' },
   { id: 3, text: 'Calendar', icon: CalendarDaysIcon, href: '/calendar' },
 ];
@@ -50,7 +49,7 @@ const getAuthItems = (isLoggedIn: boolean): MenuItem[] => {
   } else {
     return [
       {
-        id: 6,
+        id: 8,
         text: 'Sign Out',
         icon: ArrowLeftEndOnRectangleIcon,
         href: '/api/auth/signout',
@@ -58,10 +57,8 @@ const getAuthItems = (isLoggedIn: boolean): MenuItem[] => {
     ];
   }
 };
-const NavBar = () => {
+const NavBar = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const path = usePathname();
-  const { data: session } = useSession();
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuBtnRef = useRef<HTMLDivElement>(null);
@@ -80,7 +77,7 @@ const NavBar = () => {
             onClick={() => setIsMenuOpen(false)}
           />
           <div className="w-full flex flex-col gap-6 p-5 ">
-            {[...desktopItems, ...getAuthItems(!!session?.user)].map(
+            {[...desktopItems, ...getAuthItems(isLoggedIn)].map(
               (props) => {
                 const IconComponent = props.icon as React.ComponentType<{
                   className: string;
@@ -126,7 +123,7 @@ const NavBar = () => {
           </div>
         </ul>
         <ul className="hidden text-xs sm:text-md sm:flex sm:flex-col sm:items-center">
-          {getAuthItems(!!session?.user).map((props) => (
+          {getAuthItems(isLoggedIn).map((props) => (
             <NavItem key={props.id} {...props} desktop />
           ))}
         </ul>
