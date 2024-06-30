@@ -8,18 +8,19 @@ datasource db {
 }
 
 model User {
-  id              String    @id @default(cuid())
+  id              String         @id @default(cuid())
   name            String?
-  username        String    @unique
-  email           String    @unique
+  username        String         @unique
+  email           String         @unique
   emailVerified   DateTime?
   image           String?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
   hashed_password String
   Account         Account?
   Plants          Plant[]
   Session         Session[]
+  JournalEntries  JournalEntry[]
 }
 
 model Account {
@@ -45,11 +46,33 @@ model Account {
 }
 
 model Photo {
-  id        Int       @id @default(autoincrement())
-  location  String
-  createdAt DateTime  @default(now())
-  deletedAt DateTime?
-  plant     Plant?
+  id                Int                @id @default(autoincrement())
+  location          String
+  createdAt         DateTime           @default(now())
+  deletedAt         DateTime?
+  Plant             Plant?
+  JournalEntryPhoto JournalEntryPhoto?
+}
+
+model JournalEntry {
+  id          Int      @id @default(autoincrement())
+  description String
+  entryDate   DateTime
+
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id])
+
+  plantId            Int?
+  plant              Plant?              @relation(fields: [plantId], references: [id])
+  JournalEntryPhotos JournalEntryPhoto[]
+}
+
+model JournalEntryPhoto {
+  photoId        Int @id
+  journalEntryId Int
+
+  Photo        Photo        @relation(fields: [photoId], references: [id])
+  JournalEntry JournalEntry @relation(fields: [journalEntryId], references: [id])
 }
 
 model Plant {
@@ -62,6 +85,8 @@ model Plant {
   photo_id    Int?     @unique
   photo       Photo?   @relation(fields: [photo_id], references: [id])
   user        User     @relation(fields: [userId], references: [id])
+
+  JournalEntries JournalEntry[]
 
   @@unique([userId, slug])
 }
