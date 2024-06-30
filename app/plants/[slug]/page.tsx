@@ -43,7 +43,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 width={100}
                 height={100}
                 className="size-36"
-                key={`journal-entry-photo-${journalEntryPhoto.id}`}
+                key={`journal-entry-photo-${journalEntryPhoto.photoId}`}
                 src={journalEntryPhoto.Photo.location}
                 alt={`Photo of ${journalEntry.entryDate}`}
               />
