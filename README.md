@@ -5,7 +5,7 @@
 
 ## Garden Buddy
 
-Preview the app [here](http://garden-buddy.tiffanytang.tech)
+Preview the app [here](https://garden-buddy.vercel.app)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
