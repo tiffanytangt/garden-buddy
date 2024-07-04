@@ -63,7 +63,7 @@ model JournalEntry {
   owner   User   @relation(fields: [ownerId], references: [id])
 
   plantId            Int?
-  plant              Plant?              @relation(fields: [plantId], references: [id])
+  plant              Plant?              @relation(fields: [plantId], references: [id], onDelete: Cascade)
   JournalEntryPhotos JournalEntryPhoto[]
 }
 
@@ -72,7 +72,7 @@ model JournalEntryPhoto {
   journalEntryId Int
 
   Photo        Photo        @relation(fields: [photoId], references: [id])
-  JournalEntry JournalEntry @relation(fields: [journalEntryId], references: [id])
+  JournalEntry JournalEntry @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
 }
 
 model Plant {
