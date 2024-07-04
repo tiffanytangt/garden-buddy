@@ -5,6 +5,7 @@ import { SessionProvider } from 'next-auth/react';
 import Header from '@/app/(layout)/_components/Header';
 import { auth } from '@/lib/auth';
 import NavBar from './(layout)/_components/Nav';
+import { Analytics } from '@vercel/analytics/react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,6 +25,7 @@ export default async function RootLayout({
       <head>
         <title>Garden Buddy</title>
         <link rel="icon" href="/app/icon.ico" sizes="any" />
+        <Analytics />
       </head>
       <body
         className={`${inter.className} size-full min-h-screen flex sm:pl-20 sm:pt-16 ${session ? 'pb-20' : ''} sm:pb-0 bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-950 dark:to-zinc-800  dark:text-white`}
