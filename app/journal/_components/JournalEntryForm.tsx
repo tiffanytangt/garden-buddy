@@ -37,7 +37,7 @@ export default function JournalEntryForm({ plants }: Props) {
     formState: { errors, isSubmitting, isDirty },
   } = useForm<AddJournalEntryInputs>();
 
-  const disableFields = isSubmitting || !isDirty;
+  const disableFields = isSubmitting;
 
   return (
     <form
@@ -111,7 +111,7 @@ export default function JournalEntryForm({ plants }: Props) {
         <Button
           className="p-2 bg-emerald-800 text-white disabled:text-gray-400 mt-4"
           type="submit"
-          disabled={disableFields}
+          disabled={disableFields || !isDirty}
         >
           Save Journal Entry
         </Button>
