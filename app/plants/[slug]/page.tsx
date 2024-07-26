@@ -19,25 +19,24 @@ export default async function Page({ params }: { params: { slug: string } }) {
     include: {
       JournalEntries: {
         include: { JournalEntryPhotos: { include: { Photo: true } } },
+        orderBy: { entryDate: 'desc' },
       },
     },
   });
 
   if (!plant) redirect('/plants');
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <h1 className="text-xl">
-        {plant.displayName} ({plant.slug})
-      </h1>
+    <div className="flex flex-col gap-4 py-6 container mx-auto max-w-lg">
+      <div className="text-center font-extralight">
+        <h1 className="text-xl sm:text-3xl">{plant.displayName}</h1>(
+        {plant.slug})
+      </div>
       {plant.JournalEntries.map((journalEntry) => (
         <div
           key={`journal-entry-${journalEntry.id}`}
-          className="bg-white dark:bg-opacity-50 p-4 rounded-md"
+          className="bg-white dark:bg-opacity-25 p-2 rounded-md"
         >
-          <div className="text-sm font-bold">
-            {journalEntry.entryDate.toDateString()}
-          </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-end justify-center">
             {journalEntry.JournalEntryPhotos.map((journalEntryPhoto) => (
               <Image
                 width={100}
@@ -45,11 +44,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 className="size-36"
                 key={`journal-entry-photo-${journalEntryPhoto.photoId}`}
                 src={journalEntryPhoto.Photo.location}
-                alt={`Photo of ${journalEntry.entryDate}`}
+                alt={`Photo on ${journalEntry.entryDate}`}
               />
             ))}
           </div>
-          <div className=" italic">{journalEntry.description}</div>
+          <div className="italic">{journalEntry.description}</div>
+          <div className="text-sm mt-1">
+            {journalEntry.entryDate.toLocaleDateString()}
+          </div>
         </div>
       ))}
     </div>
