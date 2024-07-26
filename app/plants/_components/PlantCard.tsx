@@ -8,12 +8,13 @@ import { deletePlant } from '../_actions/deletePlant';
 import SlideMenu from '@/app/(shared)/_components/SlideMenu';
 import UpdatePlantModal from './UpdatePlantModal';
 import { Button } from '@headlessui/react';
+import Link from 'next/link';
 
-export type PlantCardProps = React.PropsWithChildren<{
+export type PlantCardProps = {
   plant: Plant & { photo: { location: string } | null };
-}>;
+};
 
-export const PlantCard: React.FC<PlantCardProps> = ({ plant, children }) => {
+export const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -32,7 +33,7 @@ export const PlantCard: React.FC<PlantCardProps> = ({ plant, children }) => {
         backgroundImage: `url("${plant.photo?.location || '/plant-default.jpeg'}")`,
       }}
     >
-      {children}
+      <Link href={`/plants/${plant.slug}`} className='h-full'/>
       <SlideMenu slideDirection="up" isOpen={isContextMenuOpen}>
         <div
           ref={menuRef}
