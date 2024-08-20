@@ -31,7 +31,7 @@ export async function addJournalEntry(formData: FormData) {
                 Photo: {
                   create: {
                     location: await uploadImageToS3(
-                      await resizeImage(photo, 1000)
+                      await resizeImage(photo, 1200)
                     ),
                   },
                 },

@@ -24,7 +24,7 @@ export async function updatePlant(plantId: number, formData: FormData) {
         ...(photo.size && {
           photo: {
             create: {
-              location: await uploadImageToS3(await resizeImage(photo, 500)),
+              location: await uploadImageToS3(await resizeImage(photo, 1200)),
             },
           },
         }),

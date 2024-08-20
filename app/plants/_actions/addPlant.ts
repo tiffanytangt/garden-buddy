@@ -28,7 +28,7 @@ export async function addPlant(formData: FormData) {
               photo: {
                 create: {
                   location: await uploadImageToS3(
-                    await resizeImage(photo, 500)
+                    await resizeImage(photo, 1200)
                   ),
                 },
               },
