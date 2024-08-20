@@ -14,6 +14,7 @@ import { Plant } from '@prisma/client';
 import { updatePlant } from '../_actions/updatePlant';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import { useFormStatus } from 'react-dom';
 
 function UpdatePlant({
   isOpen,
@@ -30,7 +31,8 @@ function UpdatePlant({
     formState: { errors, isSubmitting, isDirty, isValidating },
   } = useForm();
 
-  const disableFields = isValidating || isSubmitting || !isDirty;
+  const { pending } = useFormStatus();
+  const disableSubmit = isValidating || isSubmitting || !isDirty;
   return (
     <Dialog open={isOpen} className="relative z-50" onClose={onClose}>
       <div className="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
@@ -55,7 +57,7 @@ function UpdatePlant({
             }}
           >
             <div className="flex flex-col gap-8">
-              <Field disabled={disableFields}>
+              <Field disabled={pending}>
                 <Label>Plant name:</Label>
                 {errors.name && (
                   <Description className="text-red-500">
@@ -70,7 +72,7 @@ function UpdatePlant({
                   defaultValue={plant.displayName}
                 />
               </Field>
-              <Field disabled={disableFields}>
+              <Field disabled={pending}>
                 <Input
                   {...register('photo')}
                   name="photo"
@@ -84,7 +86,7 @@ function UpdatePlant({
                 <Button
                   className="p-2 bg-emerald-800 text-white disabled:text-gray-400 mt-4"
                   type="submit"
-                  disabled={disableFields}
+                  disabled={disableSubmit}
                 >
                   Save Plant
                 </Button>
@@ -96,7 +98,7 @@ function UpdatePlant({
                     )
                       onClose();
                   }}
-                  disabled={disableFields}
+                  disabled={pending}
                 >
                   Cancel
                 </Button>
