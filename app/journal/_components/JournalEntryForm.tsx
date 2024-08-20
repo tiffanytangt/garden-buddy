@@ -86,7 +86,7 @@ export default function JournalEntryForm({ plants }: Props) {
         <Input
           {...register('photos')}
           type="file"
-          accept="image/*"
+          accept="image/*;capture=camera"
           className="block w-full"
           multiple
         />

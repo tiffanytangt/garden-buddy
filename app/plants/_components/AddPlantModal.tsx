@@ -69,8 +69,7 @@ const AddPlantFormFields = ({ onCancel }: { onCancel: () => void }) => {
         <Input
           name="photo"
           type="file"
-          accept="image/*,application/pdf;capture=camera"
-          // capture="environment"
+          accept="image/*;capture=camera"
           className="block w-full"
         />
       </Field>
