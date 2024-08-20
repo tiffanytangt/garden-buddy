@@ -24,7 +24,9 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.52.0",
-    "sharp": "^0.33.4"
+    "sharp": "^0.33.4",
+    "simplelightbox": "^2.14.3",
+    "yet-another-react-lightbox": "^3.21.4"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.24.7",

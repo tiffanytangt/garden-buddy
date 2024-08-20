@@ -1,18 +1,18 @@
 import db from '@/lib/db';
-import Image from 'next/image';
 import { redirect } from 'next/navigation';
+import JournalGallery from './_components/JournalGallery';
 
 export default async function Page({ params }: { params: { slug: string } }) {
   if (!isNaN(+params.slug)) {
-    const plant = await db.plant.findFirstOrThrow({
+    const plant = await db.plant.findFirst({
       where: {
         id: +params.slug,
       },
     });
-    redirect('/plants/' + plant.slug);
+    redirect('/plants/' + plant?.slug);
   }
 
-  const plant = await db.plant.findFirstOrThrow({
+  const plant = await db.plant.findFirst({
     where: {
       slug: params.slug,
     },
@@ -31,29 +31,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         <h1 className="text-xl sm:text-3xl">{plant.displayName}</h1>(
         {plant.slug})
       </div>
-      {plant.JournalEntries.map((journalEntry) => (
-        <div
-          key={`journal-entry-${journalEntry.id}`}
-          className="bg-white dark:bg-opacity-25 p-2 rounded-md"
-        >
-          <div className="flex gap-2 items-end justify-center">
-            {journalEntry.JournalEntryPhotos.map((journalEntryPhoto) => (
-              <Image
-                width={100}
-                height={100}
-                className="size-36"
-                key={`journal-entry-photo-${journalEntryPhoto.photoId}`}
-                src={journalEntryPhoto.Photo.location}
-                alt={`Photo on ${journalEntry.entryDate}`}
-              />
-            ))}
-          </div>
-          <div className="italic">{journalEntry.description}</div>
-          <div className="text-sm mt-1">
-            {journalEntry.entryDate.toLocaleDateString()}
-          </div>
-        </div>
-      ))}
+      <JournalGallery entries={plant.JournalEntries} />
     </div>
   );
 }
