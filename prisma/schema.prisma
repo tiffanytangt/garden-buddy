@@ -8,19 +8,22 @@ datasource db {
 }
 
 model User {
-  id              String         @id @default(cuid())
+  id              String    @id @default(cuid())
   name            String?
-  username        String         @unique
-  email           String         @unique
+  username        String    @unique
+  email           String    @unique
   emailVerified   DateTime?
   image           String?
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
   hashed_password String
-  Account         Account?
-  Plants          Plant[]
-  Session         Session[]
-  JournalEntries  JournalEntry[]
+
+  Account        Account?
+  Plants         Plant[]
+  Session        Session[]
+  JournalEntries JournalEntry[]
+  Reminders      Reminder[]
+  Notifications  Notification[]
 }
 
 model Account {
@@ -109,4 +112,54 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Reminder {
+  id               Int               @id @default(autoincrement())
+  user             User              @relation(fields: [userId], references: [id])
+  userId           String
+  title            String
+  description      String?
+  date             DateTime
+  time             DateTime?
+  isCompleted      Boolean           @default(false)
+  createdAt        DateTime          @default(now())
+  deletedAt        DateTime?
+  updatedAt        DateTime          @updatedAt
+  RecurringPattern RecurringPattern?
+  Notifications    Notification[]
+}
+
+model RecurringPattern {
+  id         Int                @id @default(autoincrement())
+  reminder   Reminder           @relation(fields: [reminderId], references: [id])
+  reminderId Int                @unique
+  frequency  RecurringFrequency
+  interval   Int                @default(1) // e.g., every 1 day, every 2 weeks
+}
+
+enum RecurringFrequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
+}
+
+model Notification {
+  id               Int              @id @default(autoincrement())
+  user             User             @relation(fields: [userId], references: [id])
+  userId           String
+  notificationTime DateTime
+  isSent           Boolean          @default(false)
+  isRead           Boolean          @default(false)
+  type             NotificationType
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  reminder   Reminder? @relation(fields: [reminderId], references: [id])
+  reminderId Int?
+}
+
+enum NotificationType {
+  REMINDER
 }
