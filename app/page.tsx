@@ -3,6 +3,7 @@ import * as React from 'react';
 import TodGreeting from './(shared)/_components/TodGreeting';
 import Link from 'next/link';
 import Image from 'next/image';
+import { NotebookPen, Timer } from 'lucide-react';
 
 export default async function Home() {
   const session = await auth();
@@ -24,15 +25,17 @@ export default async function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 w-full sm:max-w-sm gap-6 p-4">
             <Link
               href="/journal"
-              className="bg-emerald-600 text-white rounded-lg py-7 text-xl font-extralight text-center"
+              className="bg-emerald-600 text-white rounded-lg py-7 text-xl font-extralight flex flex-col items-center gap-1"
             >
-              <button>Create a Journal Entry</button>
+              <NotebookPen size={48} />
+              <button>Journal Entry</button>
             </Link>
             <Link
               href="/reminders"
-              className="bg-emerald-700 text-white rounded-lg py-7 text-xl font-extralight text-center"
+              className="bg-emerald-700 text-white rounded-lg py-7 text-xl font-extralight flex flex-col items-center gap-1"
             >
-              <button>Set a Reminder</button>
+              <Timer size={48} />
+              <button>Reminder</button>
             </Link>
           </div>
         </div>
