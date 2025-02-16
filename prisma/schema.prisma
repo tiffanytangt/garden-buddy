@@ -18,12 +18,12 @@ model User {
   updatedAt       DateTime  @updatedAt
   hashed_password String
 
-  Account        Account?
-  Plants         Plant[]
-  Session        Session[]
-  JournalEntries JournalEntry[]
-  Reminders      Reminder[]
-  Notifications  Notification[]
+  account        Account?
+  plants         Plant[]
+  session        Session[]
+  journalEntries JournalEntry[]
+  reminders      Reminder[]
+  notifications  Notification[]
 }
 
 model Account {
@@ -53,8 +53,8 @@ model Photo {
   location          String
   createdAt         DateTime           @default(now())
   deletedAt         DateTime?
-  Plant             Plant?
-  JournalEntryPhoto JournalEntryPhoto?
+  plant             Plant?
+  journalEntryPhoto JournalEntryPhoto?
 }
 
 model JournalEntry {
@@ -67,15 +67,15 @@ model JournalEntry {
 
   plantId            Int?
   plant              Plant?              @relation(fields: [plantId], references: [id], onDelete: Cascade)
-  JournalEntryPhotos JournalEntryPhoto[]
+  journalEntryPhotos JournalEntryPhoto[]
 }
 
 model JournalEntryPhoto {
   photoId        Int @id
   journalEntryId Int
 
-  Photo        Photo        @relation(fields: [photoId], references: [id])
-  JournalEntry JournalEntry @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
+  photo        Photo        @relation(fields: [photoId], references: [id])
+  journalEntry JournalEntry @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
 }
 
 model Plant {
@@ -89,7 +89,7 @@ model Plant {
   photo       Photo?   @relation(fields: [photo_id], references: [id])
   user        User     @relation(fields: [userId], references: [id])
 
-  JournalEntries JournalEntry[]
+  journalEntries JournalEntry[]
 
   @@unique([userId, slug])
 }
@@ -126,8 +126,8 @@ model Reminder {
   createdAt        DateTime          @default(now())
   deletedAt        DateTime?
   updatedAt        DateTime          @updatedAt
-  RecurringPattern RecurringPattern?
-  Notifications    Notification[]
+  recurringPattern RecurringPattern?
+  notifications    Notification[]
 }
 
 model RecurringPattern {

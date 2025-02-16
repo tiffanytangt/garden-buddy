@@ -11,9 +11,9 @@ type Props = {
     id: number;
     entryDate: Date;
     description: string;
-    JournalEntryPhotos: {
+    journalEntryPhotos: {
       photoId: number;
-      Photo: {
+      photo: {
         id: number;
         location: string;
       };
@@ -29,9 +29,9 @@ function JournalGallery({ entries }: Props) {
     (acc, journalEntry) => {
       return [
         ...acc,
-        ...journalEntry.JournalEntryPhotos.map((journalEntryPhoto) => ({
+        ...journalEntry.journalEntryPhotos.map((journalEntryPhoto) => ({
           id: journalEntryPhoto.photoId,
-          src: journalEntryPhoto.Photo.location,
+          src: journalEntryPhoto.photo.location,
           alt: journalEntry.description || `Photo on ${journalEntry.entryDate}`,
         })),
       ];
@@ -48,7 +48,7 @@ function JournalGallery({ entries }: Props) {
           className="bg-white dark:bg-opacity-25 p-2 rounded-md"
         >
           <div className="flex gap-2 items-end justify-center">
-            {journalEntry.JournalEntryPhotos.map((journalEntryPhoto) => (
+            {journalEntry.journalEntryPhotos.map((journalEntryPhoto) => (
               <div
                 key={`journal-entry-photo-${journalEntryPhoto.photoId}`}
                 className="aspect-square size-full overflow-hidden"
@@ -57,7 +57,7 @@ function JournalGallery({ entries }: Props) {
                   width={500}
                   height={500}
                   className="relative top-1/2 transform -translate-y-1/2 cursor-pointer"
-                  src={journalEntryPhoto.Photo.location}
+                  src={journalEntryPhoto.photo.location}
                   alt={`Photo on ${journalEntry.entryDate}`}
                   onClick={() => {
                     setCurrentImage(

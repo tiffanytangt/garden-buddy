@@ -18,9 +18,9 @@ export async function addPlant(formData: FormData) {
   const createPlant = async (opts: { dedupeSlug?: boolean } = {}) =>
     db.user.update({
       where: { id: session.user.id },
-      include: { Plants: true },
+      include: { plants: true },
       data: {
-        Plants: {
+        plants: {
           create: {
             displayName: name,
             slug: slugify(name, { addHash: opts.dedupeSlug }),

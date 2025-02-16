@@ -23,12 +23,12 @@ export async function addJournalEntry(formData: FormData) {
         ownerId: session.user.id,
         description,
         entryDate: new Date(timestamp),
-        JournalEntryPhotos: {
+        journalEntryPhotos: {
           create: await Promise.all(
             photos
               .filter((f) => f.size > 0)
               .map(async (photo) => ({
-                Photo: {
+                photo: {
                   create: {
                     location: await uploadImageToS3(
                       await resizeImage(photo, 1200)

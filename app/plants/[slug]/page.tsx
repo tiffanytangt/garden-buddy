@@ -17,8 +17,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
       slug: params.slug,
     },
     include: {
-      JournalEntries: {
-        include: { JournalEntryPhotos: { include: { Photo: true } } },
+      journalEntries: {
+        include: { journalEntryPhotos: { include: { photo: true } } },
         orderBy: { entryDate: 'desc' },
       },
     },
@@ -31,7 +31,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         <h1 className="text-xl sm:text-3xl">{plant.displayName}</h1>(
         {plant.slug})
       </div>
-      <JournalGallery entries={plant.JournalEntries} />
+      <JournalGallery entries={plant.journalEntries} />
     </div>
   );
 }
