@@ -39,7 +39,9 @@ export default async function RootLayout({
             </div>
           )}
 
-          <main className="w-full flex flex-col py-2 px-4">{children}</main>
+          <main className="w-full flex flex-col py-2 px-4 sm:mx-12 sm:my-6">
+            {children}
+          </main>
         </SessionProvider>
       </body>
     </html>

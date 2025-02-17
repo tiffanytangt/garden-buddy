@@ -10,7 +10,7 @@ interface TextareaProps extends HeadlessTextareaProps {
 }
 
 const _Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, ...rest }: TextareaProps, ref) => {
+  function _Textarea({ className, ...rest }: TextareaProps, ref) {
     return (
       <HeadlessTextarea
         ref={ref}

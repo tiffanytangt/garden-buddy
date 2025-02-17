@@ -4,13 +4,7 @@ import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import {
   EllipsisVerticalIcon,
-  BellAlertIcon,
   HomeIcon,
-  Squares2X2Icon,
-  CalendarDaysIcon,
-  BookOpenIcon,
-  ArrowRightEndOnRectangleIcon,
-  ArrowLeftEndOnRectangleIcon,
   UserPlusIcon,
   ChevronDownIcon,
 } from '@heroicons/react/16/solid';
@@ -19,10 +13,7 @@ import NavItem from './NavItem';
 import { useClickOutside } from '@/app/(shared)/_hooks/clickOutside';
 import SlideMenu from '../../(shared)/_components/SlideMenu';
 import {
-  BellIcon,
   Calendar,
-  Calendar1,
-  CalendarCheck,
   Leaf,
   LogIn,
   LogOut,

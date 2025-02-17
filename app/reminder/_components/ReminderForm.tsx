@@ -2,11 +2,9 @@
 
 import React from 'react';
 import { GetPlantsResult } from '@/app/plants/_actions/getPlants';
-import { Field, Label, Description } from '@headlessui/react';
-import { Controller, set, useForm } from 'react-hook-form';
-import { ExclamationCircleIcon } from '@heroicons/react/16/solid';
+import { Field, Label } from '@headlessui/react';
+import { useForm } from 'react-hook-form';
 import { createReminder } from '../_actions/addReminder';
-import { ErrorMessage } from '@hookform/error-message';
 import { TextArea, Input } from '@/app/(shared)/_components/form';
 import { Button } from '@/app/(shared)/_components/Button';
 import ReminderChoosePlant from './ReminderChoosePlant';
@@ -38,7 +36,6 @@ export default function ReminderSteps({ plants }: Props) {
     'CHOOSE_PLANT'
   );
   const [plantId, setPlantId] = React.useState<number | null>();
-
   if (step === 'CHOOSE_PLANT') {
     return (
       <ReminderChoosePlant
@@ -56,14 +53,14 @@ export default function ReminderSteps({ plants }: Props) {
     <form
       className="flex flex-col gap-2"
       action={async (formData) => {
-        console.log('formData', formData);
         if ((await trigger()) == false) return;
         if (plantId) formData.set('plantId', `${plantId}`);
         try {
           await createReminder(formData);
-          redirect('/');
         } catch (error) {
           setError('root', { message: 'Error creating reminder' });
+        } finally {
+          redirect('/');
         }
       }}
     >

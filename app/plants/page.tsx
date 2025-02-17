@@ -12,7 +12,7 @@ export default async function Plants() {
   return (
     <div
       className="container mx-auto grid justify-items-center
-      grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 py-6"
+      grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6"
     >
       {plants.map((plant) => {
         return <PlantCard key={plant.id} plant={plant} />;
