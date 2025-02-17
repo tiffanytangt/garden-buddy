@@ -28,6 +28,7 @@
     "react-hook-form": "^7.52.0",
     "sharp": "^0.33.4",
     "simplelightbox": "^2.14.3",
+    "tailwind-merge": "^3.0.1",
     "yet-another-react-lightbox": "^3.21.4"
   },
   "devDependencies": {
