@@ -31,7 +31,7 @@ export default async function Home() {
               <button>Journal Entry</button>
             </Link>
             <Link
-              href="/reminders"
+              href="/reminder"
               className="bg-emerald-700 rounded-full sm:rounded-3xl py-4 sm:py-6 flex flex-col items-center gap-1"
             >
               <Timer size={32} className="mt-1" />

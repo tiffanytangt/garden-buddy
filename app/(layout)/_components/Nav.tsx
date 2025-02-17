@@ -42,7 +42,7 @@ const mainItems: MenuItem[] = [
   { id: 3, text: 'Calendar', icon: Calendar, href: '/calendar' },
 ];
 const desktopItems: MenuItem[] = [
-  { id: 4, text: 'Reminders', icon: Timer, href: '/schedule' },
+  { id: 4, text: 'Reminders', icon: Timer, href: '/reminder' },
   { id: 5, text: 'Journal', icon: NotebookPen, href: '/journal' },
 ];
 

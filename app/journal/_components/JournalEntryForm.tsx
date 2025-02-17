@@ -7,10 +7,10 @@ import { Controller, useForm } from 'react-hook-form';
 import { ExclamationCircleIcon } from '@heroicons/react/16/solid';
 import { addJournalEntry } from '../_actions/addJournalEntry';
 import { ErrorMessage } from '@hookform/error-message';
-import PlantDropdown from './PlantDropdown';
 import { redirect } from 'next/navigation';
 import { TextArea, Input } from '@/app/(shared)/_components/form';
 import { Button } from '@/app/(shared)/_components/Button';
+import PlantDropdown from '@/app/(shared)/_components/PlantDropdown';
 
 type Props = {
   plants: GetPlantsResult[];
