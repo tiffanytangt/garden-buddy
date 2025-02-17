@@ -90,6 +90,7 @@ model Plant {
   user        User     @relation(fields: [userId], references: [id])
 
   journalEntries JournalEntry[]
+  reminders      Reminder[]
 
   @@unique([userId, slug])
 }
@@ -128,6 +129,9 @@ model Reminder {
   updatedAt        DateTime          @updatedAt
   recurringPattern RecurringPattern?
   notifications    Notification[]
+
+  plantId Int?
+  plant   Plant? @relation(fields: [plantId], references: [id])
 }
 
 model RecurringPattern {
