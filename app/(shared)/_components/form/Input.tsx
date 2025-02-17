@@ -9,7 +9,7 @@ interface InputProps extends HeadlessInputProps {
   className?: string;
 }
 
-const _Input = forwardRef<HTMLInputElement>(
+const _Input = forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...rest }: InputProps, ref) => {
     return (
       <HeadlessInput

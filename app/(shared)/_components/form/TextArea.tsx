@@ -5,12 +5,12 @@ import {
 import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-interface InputProps extends HeadlessTextareaProps {
+interface TextareaProps extends HeadlessTextareaProps {
   className?: string;
 }
 
-const _Input = forwardRef<HTMLTextAreaElement>(
-  ({ className, ...rest }: InputProps, ref) => {
+const _Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
+  ({ className, ...rest }: TextareaProps, ref) => {
     return (
       <HeadlessTextarea
         ref={ref}
@@ -25,4 +25,4 @@ const _Input = forwardRef<HTMLTextAreaElement>(
   }
 );
 
-export default _Input;
+export default _Textarea;
