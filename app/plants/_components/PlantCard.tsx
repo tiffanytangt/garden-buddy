@@ -26,14 +26,14 @@ export const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
 
   return (
     <div
-      className="rounded-sm overflow-hidden size-44 relative flex flex-col justify-end
+      className="rounded-2xl overflow-hidden size-44 relative flex flex-col justify-end
       bg-cover bg-center bg-white dark:bg-neutral-800 text-white text-sm"
       title={plant.slug}
       style={{
         backgroundImage: `url("${plant.photo?.location || '/plant-default.jpeg'}")`,
       }}
     >
-      <Link href={`/plants/${plant.slug}`} className='h-full'/>
+      <Link href={`/plants/${plant.slug}`} className="h-full" />
       <SlideMenu slideDirection="up" isOpen={isContextMenuOpen}>
         <div
           ref={menuRef}

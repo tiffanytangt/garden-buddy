@@ -2,20 +2,15 @@
 
 import React from 'react';
 import { GetPlantsResult } from '@/app/plants/_actions/getPlants';
-import {
-  Input,
-  Field,
-  Label,
-  Description,
-  Button,
-  Textarea,
-} from '@headlessui/react';
+import { Field, Label, Description } from '@headlessui/react';
 import { Controller, useForm } from 'react-hook-form';
 import { ExclamationCircleIcon } from '@heroicons/react/16/solid';
 import { addJournalEntry } from '../_actions/addJournalEntry';
 import { ErrorMessage } from '@hookform/error-message';
 import PlantDropdown from './PlantDropdown';
 import { redirect } from 'next/navigation';
+import { TextArea, Input } from '@/app/(shared)/_components/form';
+import { Button } from '@/app/(shared)/_components/Button';
 
 type Props = {
   plants: GetPlantsResult[];
@@ -74,7 +69,7 @@ export default function JournalEntryForm({ plants }: Props) {
       <Field disabled={disableFields}>
         <Label>Note</Label>
         <Description className="text-sm font-extralight">optional</Description>
-        <Textarea
+        <TextArea
           className="block w-full disabled:bg-gray-200 text-black h-32"
           {...register('description')}
         />
@@ -109,7 +104,8 @@ export default function JournalEntryForm({ plants }: Props) {
 
       <div className="flex flex-col gap-4">
         <Button
-          className="p-2 bg-emerald-800 text-white disabled:text-gray-400 mt-4"
+          variant="primary"
+          className=" mt-4"
           type="submit"
           disabled={disableFields || !isDirty}
         >

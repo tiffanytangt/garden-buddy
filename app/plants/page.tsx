@@ -14,12 +14,12 @@ export default async function Plants() {
       className="container mx-auto grid justify-items-center
       grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 py-6"
     >
-      <div className="size-44 p-4 border-4 border-dashed border-emerald-800 border-opacity-10 rounded-sm content-center text-center">
-        <AddPlantModal />
-      </div>
       {plants.map((plant) => {
         return <PlantCard key={plant.id} plant={plant} />;
       })}
+      <div className="size-44 p-4 border-[3px] border-dashed border-emerald-800/10 rounded-3xl content-center text-center">
+        <AddPlantModal />
+      </div>
     </div>
   );
 }

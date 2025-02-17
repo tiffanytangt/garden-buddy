@@ -28,7 +28,7 @@ export default async function RootLayout({
         <Analytics />
       </head>
       <body
-        className={`${inter.className} size-full min-h-screen flex sm:pl-20 sm:pt-16 ${session ? 'pb-20' : ''} sm:pb-0 bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-950 dark:to-zinc-800  dark:text-white`}
+        className={`${inter.className} size-full min-h-screen flex sm:pl-20 sm:pt-16 ${session ? 'pb-20' : ''} sm:pb-0 bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-950 dark:to-zinc-800 dark:text-white`}
       >
         <SessionProvider session={session}>
           <Header />
@@ -39,7 +39,7 @@ export default async function RootLayout({
             </div>
           )}
 
-          <main className="w-full flex flex-col p-2">{children}</main>
+          <main className="w-full flex flex-col py-2 px-4">{children}</main>
         </SessionProvider>
       </body>
     </html>

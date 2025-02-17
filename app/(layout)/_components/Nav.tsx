@@ -18,6 +18,17 @@ import { usePathname } from 'next/navigation';
 import NavItem from './NavItem';
 import { useClickOutside } from '@/app/(shared)/_hooks/clickOutside';
 import SlideMenu from '../../(shared)/_components/SlideMenu';
+import {
+  BellIcon,
+  Calendar,
+  Calendar1,
+  CalendarCheck,
+  Leaf,
+  LogIn,
+  LogOut,
+  NotebookPen,
+  Timer,
+} from 'lucide-react';
 
 interface MenuItem {
   id: number;
@@ -27,12 +38,12 @@ interface MenuItem {
 }
 const mainItems: MenuItem[] = [
   { id: 1, text: 'Home', icon: HomeIcon, href: '/' },
-  { id: 2, text: 'Plants', icon: Squares2X2Icon, href: '/plants' },
-  { id: 3, text: 'Calendar', icon: CalendarDaysIcon, href: '/calendar' },
+  { id: 2, text: 'Plants', icon: Leaf, href: '/plants' },
+  { id: 3, text: 'Calendar', icon: Calendar, href: '/calendar' },
 ];
 const desktopItems: MenuItem[] = [
-  { id: 4, text: 'Reminders', icon: BellAlertIcon, href: '/schedule' },
-  { id: 5, text: 'Journal', icon: BookOpenIcon, href: '/journal' },
+  { id: 4, text: 'Reminders', icon: Timer, href: '/schedule' },
+  { id: 5, text: 'Journal', icon: NotebookPen, href: '/journal' },
 ];
 
 const getAuthItems = (isLoggedIn: boolean): MenuItem[] => {
@@ -42,7 +53,7 @@ const getAuthItems = (isLoggedIn: boolean): MenuItem[] => {
       {
         id: 7,
         text: 'Log In',
-        icon: ArrowRightEndOnRectangleIcon,
+        icon: LogIn,
         href: '/api/auth/signin',
       },
     ];
@@ -51,7 +62,7 @@ const getAuthItems = (isLoggedIn: boolean): MenuItem[] => {
       {
         id: 8,
         text: 'Sign Out',
-        icon: ArrowLeftEndOnRectangleIcon,
+        icon: LogOut,
         href: '/api/auth/signout',
       },
     ];
@@ -77,25 +88,23 @@ const NavBar = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
             onClick={() => setIsMenuOpen(false)}
           />
           <div className="w-full flex flex-col gap-6 p-5 ">
-            {[...desktopItems, ...getAuthItems(isLoggedIn)].map(
-              (props) => {
-                const IconComponent = props.icon as React.ComponentType<{
-                  className: string;
-                }>;
-                return (
-                  <li key={props.id} className="flex items-center w-full gap-1">
-                    <IconComponent className="size-6" />
-                    <Link href={props.href} passHref>
-                      {props.text}
-                    </Link>
-                  </li>
-                );
-              }
-            )}
+            {[...desktopItems, ...getAuthItems(isLoggedIn)].map((props) => {
+              const IconComponent = props.icon as React.ComponentType<{
+                className: string;
+              }>;
+              return (
+                <li key={props.id} className="flex items-center w-full gap-1">
+                  <IconComponent className="size-6" />
+                  <Link href={props.href} passHref>
+                    {props.text}
+                  </Link>
+                </li>
+              );
+            })}
           </div>
         </div>
       </SlideMenu>
-      <nav className="w-full sm:h-full bg-white dark:bg-black dark:text-white sm:p-0 flex flex-col sm:justify-between divide-y divide-gray-100">
+      <nav className="rounded-t-3xl sm:rounded-t-none w-full sm:h-full bg-emerald-900 sm:bg-white sm:dark:bg-zinc-950 sm:text-black sm:dark:text-white text-white sm:p-0 flex flex-col sm:justify-between divide-y divide-gray-100 overflow-hidden">
         <ul className="text-xs sm:text-md flex sm:flex-col sm:items-center">
           {mainItems.map((props) => (
             <NavItem
@@ -115,11 +124,17 @@ const NavBar = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
             />
           ))}
           <div
-            className="sm:flex w-full"
+            className="sm:hidden w-1/4"
             ref={menuBtnRef}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <NavItem text="More" icon={EllipsisVerticalIcon} href="" mobile />
+            <NavItem
+              text="More"
+              icon={EllipsisVerticalIcon}
+              href=""
+              mobile
+              className="w-full h-full"
+            />
           </div>
         </ul>
         <ul className="hidden text-xs sm:text-md sm:flex sm:flex-col sm:items-center">
