@@ -39,7 +39,7 @@ function JournalGallery({ entries }: Props) {
     [] as (SlideImage & { id: number })[]
   );
 
-  const firstDate = entries[entries.length - 1].entryDate;
+  const firstDate = entries[entries.length - 1]?.entryDate;
   return (
     <>
       {entries.map((journalEntry) => (
