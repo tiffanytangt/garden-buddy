@@ -1,8 +1,7 @@
 'use client';
 
-import { Checkbox, Label } from '@headlessui/react';
-import { Check, Circle, CircleCheck, CircleCheckBig } from 'lucide-react';
-import { twMerge } from 'tailwind-merge';
+import { Checkbox } from '@headlessui/react';
+import { Circle, CircleCheckBig } from 'lucide-react';
 
 type Props = {
   reminders: {
