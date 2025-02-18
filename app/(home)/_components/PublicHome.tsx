@@ -1,8 +1,11 @@
+'use server';
 import TodGreeting from '@/app/(shared)/_components/TodGreeting';
+import { auth } from '@/lib/auth';
+import db from '@/lib/db';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function PublicHome() {
+export default async function PublicHome() {
   return (
     <div className="flex flex-col items-center justify-center h-full">
       <Image

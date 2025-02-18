@@ -8,7 +8,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col gap-4 h-full">
-      {session && <AuthedHome />}
+      {session && <AuthedHome session={session} />}
       {!session && <PublicHome />}
     </div>
   );
