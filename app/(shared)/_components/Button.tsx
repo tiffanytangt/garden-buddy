@@ -24,7 +24,7 @@ export const Button = ({ className, variant, href, ...rest }: Props) => {
         href={href}
         className={twMerge([
           BUTTON_COLORS[variant],
-          'rounded-full font-medium justify-center items-center flex',
+          'rounded-full px-2 font-medium justify-center items-center flex',
           className,
         ])}
       >
