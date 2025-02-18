@@ -4,7 +4,6 @@ import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import {
   EllipsisVerticalIcon,
-  HomeIcon,
   UserPlusIcon,
   ChevronDownIcon,
 } from '@heroicons/react/16/solid';
@@ -19,6 +18,7 @@ import {
   LogOut,
   NotebookPen,
   Timer,
+  Home,
 } from 'lucide-react';
 
 interface MenuItem {
@@ -28,7 +28,7 @@ interface MenuItem {
   href: string;
 }
 const mainItems: MenuItem[] = [
-  { id: 1, text: 'Home', icon: HomeIcon, href: '/' },
+  { id: 1, text: 'Home', icon: Home, href: '/' },
   { id: 2, text: 'Plants', icon: Leaf, href: '/plants' },
   { id: 3, text: 'Calendar', icon: Calendar, href: '/calendar' },
 ];
