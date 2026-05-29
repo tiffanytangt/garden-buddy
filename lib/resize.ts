@@ -18,6 +18,7 @@ export async function resizeImage(
 ): Promise<File> {
   const buffer = await file.arrayBuffer();
   const resizedImage = await sharp(buffer)
+    .rotate() // auto-orient from EXIF before resizing
     .resize({
       width,
       height,
