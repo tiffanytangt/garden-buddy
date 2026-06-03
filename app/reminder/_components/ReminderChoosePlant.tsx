@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { GetPlantsResult } from '@/app/plants/_actions/getPlants';
 import { Button } from '@/app/(shared)/_components/Button';
 import PlantDropdown from '@/app/(shared)/_components/PlantDropdown';
+import Link from 'next/link';
 type ReminderChoosePlantProps = {
   value?: number | null;
   plants: GetPlantsResult[];
@@ -39,17 +40,29 @@ export default function ReminderChoosePlant({
           No
         </Button>
       </div>
-      {isPlantScoped && (
-        <div className="flex flex-col gap-2">
-          <PlantDropdown
-            plants={plants}
-            onChange={(plantId) => {
-              setCurrentValue(plantId);
-            }}
-            value={currentValue ?? ''}
-          />
-        </div>
-      )}
+      {isPlantScoped &&
+        (plants.length === 0 ? (
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            You haven&apos;t added any plants yet.{' '}
+            <Link
+              href="/plants"
+              className="text-emerald-700 underline dark:text-emerald-400"
+            >
+              Add one
+            </Link>{' '}
+            or choose &ldquo;No&rdquo; to set a general reminder.
+          </p>
+        ) : (
+          <div className="flex flex-col gap-2">
+            <PlantDropdown
+              plants={plants}
+              onChange={(plantId) => {
+                setCurrentValue(plantId);
+              }}
+              value={currentValue ?? ''}
+            />
+          </div>
+        ))}
       {(isPlantScoped === false || (isPlantScoped && currentValue)) && (
         <Button
           variant="primary"
