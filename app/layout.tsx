@@ -5,6 +5,7 @@ import { SessionProvider } from 'next-auth/react';
 import Header from '@/app/(layout)/_components/Header';
 import { auth } from '@/lib/auth';
 import NavBar from './(layout)/_components/Nav';
+import VersionBadge from './(layout)/_components/VersionBadge';
 import { Analytics } from '@vercel/analytics/react';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -40,6 +41,7 @@ export default async function RootLayout({
           )}
 
           <main className="w-full flex flex-col p-4 sm:m-6">{children}</main>
+          <VersionBadge />
         </SessionProvider>
       </body>
     </html>
