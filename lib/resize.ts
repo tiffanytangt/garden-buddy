@@ -21,7 +21,8 @@ export async function resizeImage(
     .rotate() // auto-orient from EXIF before resizing
     .resize({
       width,
-      height,
+      height: height ?? width, // cap the longest edge to `width` when no height given
+      fit: 'inside', // preserve aspect ratio, never exceed either dimension
       withoutEnlargement: !options.allowEnlargement,
     })
     .toBuffer();
