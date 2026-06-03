@@ -58,10 +58,13 @@ export default function ReminderSteps({ plants }: Props) {
         try {
           await createReminder(formData);
         } catch (error) {
-          setError('root', { message: 'Error creating reminder' });
-        } finally {
-          redirect('/');
+          setError('root', {
+            message: 'Something went wrong while saving. Please try again.',
+          });
+          return;
         }
+        // redirect() throws internally, so it must stay outside the try/catch
+        redirect('/');
       }}
     >
       <Field disabled={disableFields}>
@@ -100,7 +103,7 @@ export default function ReminderSteps({ plants }: Props) {
       <div className="flex gap-4 mt-4 justify-between">
         <Button
           variant="secondary"
-          type="submit"
+          type="button"
           disabled={disableFields}
           onClick={() => setStep('CHOOSE_PLANT')}
         >

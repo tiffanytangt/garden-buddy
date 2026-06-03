@@ -14,19 +14,15 @@ export async function createReminder(formData: FormData) {
 
   if (!session?.user) return;
 
-  const insert = async () =>
-    db.reminder.create({
-      data: {
-        userId: session.user.id,
-        title,
-        description,
-        date: new Date(timestamp),
-        plantId: plantId ? +plantId : undefined,
-      },
-    });
-  try {
-    return await insert();
-  } catch (e: unknown) {
-    return new Response('Failed to create reminder', { status: 500 });
-  }
+  // Let failures throw so the client can surface an error instead of silently
+  // redirecting as if the save succeeded.
+  return db.reminder.create({
+    data: {
+      userId: session.user.id,
+      title,
+      description,
+      date: new Date(timestamp),
+      plantId: plantId ? +plantId : undefined,
+    },
+  });
 }
