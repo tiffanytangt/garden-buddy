@@ -2,6 +2,7 @@ import {
   S3Client,
   PutObjectCommand,
   PutObjectCommandInput,
+  DeleteObjectCommand,
 } from '@aws-sdk/client-s3';
 import { randomUUID } from 'crypto';
 
@@ -28,4 +29,22 @@ export const uploadImageToS3 = async (file: File): Promise<string> => {
   await s3Client.send(new PutObjectCommand(uploadParams));
 
   return `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${key}`;
+};
+
+export const deleteImageFromS3 = async (location: string): Promise<void> => {
+  // Stored locations are full URLs; the S3 key is the path after the host.
+  let key: string;
+  try {
+    key = decodeURIComponent(new URL(location).pathname.replace(/^\//, ''));
+  } catch {
+    return; // Not a parseable URL — nothing we can delete.
+  }
+  if (!key) return;
+
+  await s3Client.send(
+    new DeleteObjectCommand({
+      Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME,
+      Key: key,
+    })
+  );
 };
