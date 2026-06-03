@@ -3,6 +3,7 @@ import {
   PutObjectCommand,
   PutObjectCommandInput,
 } from '@aws-sdk/client-s3';
+import { randomUUID } from 'crypto';
 
 const s3Client = new S3Client({
   region: process.env.NEXT_PUBLIC_AWS_REGION!,
@@ -13,7 +14,11 @@ const s3Client = new S3Client({
 });
 
 export const uploadImageToS3 = async (file: File): Promise<string> => {
-  const key = `dev/${file.name}`;
+  // Prefix with a UUID so uploads never collide on filename. Without this,
+  // two files with the same name (e.g. compressed photos all named "blob", or
+  // repeated camera names) overwrite each other in S3 and multiple Photo rows
+  // end up pointing at the same — wrong — image.
+  const key = `dev/${randomUUID()}-${file.name}`;
   const uploadParams: PutObjectCommandInput = {
     Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME,
     Key: key,

@@ -19,11 +19,14 @@ import imageCompression from 'browser-image-compression';
 export async function compressImage(file: File): Promise<File> {
   if (!file.type.startsWith('image/')) return file;
   try {
-    return await imageCompression(file, {
+    const compressed = await imageCompression(file, {
       maxWidthOrHeight: 1600, // matches the server-side resize cap
       maxSizeMB: 1.5,
       useWebWorker: true,
     });
+    // imageCompression can drop the original name (returns a "blob"); restore it
+    // so the eventual S3 key stays meaningful.
+    return new File([compressed], file.name, { type: compressed.type });
   } catch {
     return file;
   }
