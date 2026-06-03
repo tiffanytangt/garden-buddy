@@ -57,7 +57,7 @@ export default async function AuthedHome({ session }: { session: Session }) {
   });
   const todaysEmoji = EMOJIS[new Date().getDate() % EMOJIS.length];
   const cardStyles =
-    'bg-white border dark:border-transparent dark:bg-zinc-800 p-2 sm:p-4 rounded-sm';
+    'bg-white border dark:border-transparent dark:bg-zinc-800 p-2 sm:p-4 rounded-2xl';
 
   return (
     <>

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 type MyPlantsProps = {
   plants: {
@@ -20,23 +21,27 @@ export default function MyPlants({ plants }: MyPlantsProps) {
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {plants.map((plant) => {
-          return (
-            <Link key={plant.id} href={`/plants/${plant.slug}`}>
-              <div
-                className="rounded-sm overflow-hidden bg-cover bg-center"
-                title={plant.displayName}
-                style={{
-                  backgroundImage: `url("${plant.photo?.location || '/plant-default.jpeg'}")`,
-                }}
-              >
-                <div className="h-32 pl-4 pb-1 flex text-white text-lg font-extralight items-end bg-gradient-to-b from-zinc-100/50 to-zinc-950">
-                  {plant.displayName}
-                </div>
-              </div>
-            </Link>
-          );
-        })}
+        {plants.map((plant) => (
+          <Link
+            key={plant.id}
+            href={`/plants/${plant.slug}`}
+            className="group relative block h-32 overflow-hidden rounded-2xl"
+            title={plant.displayName}
+          >
+            <Image
+              src={plant.photo?.location || '/plant-default.jpeg'}
+              alt={plant.displayName}
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent p-3 pt-8">
+              <span className="text-white text-sm font-medium drop-shadow">
+                {plant.displayName}
+              </span>
+            </div>
+          </Link>
+        ))}
       </div>
     </>
   );
