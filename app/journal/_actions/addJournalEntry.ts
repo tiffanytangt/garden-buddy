@@ -4,6 +4,7 @@ import { auth } from '@/lib/auth';
 import db from '@/lib/db';
 import { resizeImage } from '@/lib/resize';
 import { uploadImageToS3 } from '@/lib/s3';
+import { revalidatePath } from 'next/cache';
 
 export async function addJournalEntry(formData: FormData) {
   'use server';
@@ -39,9 +40,13 @@ export async function addJournalEntry(formData: FormData) {
           ),
         },
       },
+      include: { plant: { select: { slug: true } } },
     });
   try {
-    return await insert();
+    const entry = await insert();
+    // Bust the plant page cache so the new entry shows up immediately
+    if (entry.plant?.slug) revalidatePath('/plants/' + entry.plant.slug);
+    return entry;
   } catch (e: unknown) {
     throw e;
   }
