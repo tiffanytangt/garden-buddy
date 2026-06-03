@@ -14,6 +14,9 @@ export async function signup(
   if (!username || !email || !password) {
     return { errorMessage: 'All fields are required' };
   }
+  if (password.length < 8) {
+    return { errorMessage: 'Password must be at least 8 characters' };
+  }
   if (formData.get('password') !== formData.get('confirm_password'))
     return { errorMessage: 'Passwords do not match' };
   try {
