@@ -46,4 +46,5 @@ export async function addPlant(formData: FormData) {
     throw e;
   }
   revalidatePath('/plants');
+  revalidatePath('/');
 }
