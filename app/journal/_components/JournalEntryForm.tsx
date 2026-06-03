@@ -12,6 +12,7 @@ import { redirect } from 'next/navigation';
 import { TextArea, Input } from '@/app/(shared)/_components/form';
 import { Button } from '@/app/(shared)/_components/Button';
 import PlantDropdown from '@/app/(shared)/_components/PlantDropdown';
+import { todayLocalDate } from '@/lib/util/localDate';
 
 type Props = {
   plants: GetPlantsResult[];
@@ -39,12 +40,19 @@ export default function JournalEntryForm({
     trigger,
     watch,
     getValues,
+    setValue,
     formState: { errors, isDirty },
   } = useForm<AddJournalEntryInputs>({
     defaultValues: {
       plantId: preselectedPlantId ? String(preselectedPlantId) : '',
     },
   });
+
+  // Prefill the date with the user's local "today" after mount. Doing this on
+  // the client (not via defaultValue) avoids the server rendering a UTC date.
+  useEffect(() => {
+    setValue('timestamp', todayLocalDate());
+  }, [setValue]);
 
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -137,7 +145,6 @@ export default function JournalEntryForm({
         )}
         <Input
           type="date"
-          defaultValue={new Date().toISOString().split('T')[0]}
           className="block w-full disabled:bg-gray-200 text-black"
           {...register('timestamp', { required: 'Required' })}
         />

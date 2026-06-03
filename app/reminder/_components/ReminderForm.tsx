@@ -11,6 +11,7 @@ import ReminderChoosePlant from './ReminderChoosePlant';
 import PlantDropdown from '@/app/(shared)/_components/PlantDropdown';
 import FieldError from '@/app/(shared)/_components/form/FieldError';
 import { redirect } from 'next/navigation';
+import { nowLocalDateTime } from '@/lib/util/localDate';
 
 type Props = {
   plants: GetPlantsResult[];
@@ -28,8 +29,16 @@ export default function ReminderSteps({ plants }: Props) {
     register,
     trigger,
     setError,
+    setValue,
     formState: { errors, isSubmitting, isDirty },
   } = useForm<AddReminderInputs>();
+
+  // Prefill the reminder time with the user's local "now" after mount. A bare
+  // YYYY-MM-DD never populates a datetime-local input, and a UTC value can be
+  // off by a day — so compute it client-side as YYYY-MM-DDTHH:mm.
+  React.useEffect(() => {
+    setValue('timestamp', nowLocalDateTime());
+  }, [setValue]);
 
   const disableFields = isSubmitting;
   const [step, setStep] = React.useState<'CHOOSE_PLANT' | 'REMINDER_DETAILS'>(
@@ -94,7 +103,6 @@ export default function ReminderSteps({ plants }: Props) {
         <FieldError message={errors.timestamp?.message} />
         <Input
           type="datetime-local"
-          defaultValue={new Date().toISOString().split('T')[0]}
           className="block w-full disabled:bg-gray-200 text-black"
           {...register('timestamp', { required: 'Required' })}
         />
