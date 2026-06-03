@@ -1,4 +1,5 @@
 import { Button } from '@/app/(shared)/_components/Button';
+import DeleteReminderButton from '@/app/reminder/_components/DeleteReminderButton';
 
 type Props = {
   reminders: {
@@ -52,18 +53,26 @@ export default function UpcomingCalendar({ reminders }: Props) {
                 <div className="flex flex-col gap-4 pl-2">
                   {groupedReminders[dateLabel].map((r) => {
                     return (
-                      <div key={r.id}>
-                        <div className="flex gap-2">
-                          <div className="text-sm text-gray-400">
-                            {r.date.toLocaleTimeString(undefined, {
-                              hour: 'numeric',
-                              minute: '2-digit',
-                              hour12: true,
-                            })}
+                      <div
+                        key={r.id}
+                        className="group flex items-start gap-2"
+                      >
+                        <div className="flex-1">
+                          <div className="flex gap-2">
+                            <div className="text-sm text-gray-400">
+                              {r.date.toLocaleTimeString(undefined, {
+                                hour: 'numeric',
+                                minute: '2-digit',
+                                hour12: true,
+                              })}
+                            </div>
+                            <div>{r.title}</div>
                           </div>
-                          <div>{r.title}</div>
+                          <div className="text-sm italic">{r.description}</div>
                         </div>
-                        <div className="text-sm italic">{r.description}</div>
+                        <div className="opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
+                          <DeleteReminderButton id={r.id} title={r.title} />
+                        </div>
                       </div>
                     );
                   })}

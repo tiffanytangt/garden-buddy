@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { SlideImage } from 'yet-another-react-lightbox';
 import { daysBetween } from '@/lib/util/daysBetween';
 import { usePathname, useRouter } from 'next/navigation';
+import { Trash2 } from 'lucide-react';
+import { deleteJournalEntry } from '@/app/journal/_actions/deleteJournalEntry';
 
 type Props = {
   entries: {
@@ -32,6 +34,15 @@ function JournalGallery({ entries, highlightEntryId }: Props) {
   const newEntryRef = React.useRef<HTMLDivElement>(null);
   const router = useRouter();
   const pathname = usePathname();
+  const [isDeleting, startDelete] = React.useTransition();
+
+  const handleDelete = (id: number) => {
+    if (!confirm("Delete this journal entry? This can't be undone.")) return;
+    startDelete(async () => {
+      await deleteJournalEntry(id);
+      router.refresh();
+    });
+  };
   React.useEffect(() => {
     if (!highlightEntryId) return;
     newEntryRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -87,9 +98,20 @@ function JournalGallery({ entries, highlightEntryId }: Props) {
             ))}
           </div>
           <div className="italic">{journalEntry.description}</div>
-          <div className="text-sm mt-1">
-            {journalEntry.entryDate.toLocaleDateString()} (
-            {daysBetween(journalEntry.entryDate, firstDate)} days)
+          <div className="mt-1 flex items-center justify-between">
+            <div className="text-sm">
+              {journalEntry.entryDate.toLocaleDateString()} (
+              {daysBetween(journalEntry.entryDate, firstDate)} days)
+            </div>
+            <button
+              type="button"
+              aria-label="Delete journal entry"
+              disabled={isDeleting}
+              onClick={() => handleDelete(journalEntry.id)}
+              className="text-gray-400 transition-colors hover:text-red-600 disabled:opacity-50"
+            >
+              <Trash2 className="size-4" />
+            </button>
           </div>
         </div>
       ))}
