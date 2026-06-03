@@ -8,6 +8,7 @@ import { getPlants } from '@/app/plants/_actions/getPlants';
 import MyPlants from './MyPlants';
 import ActionButtons from './ActionButtons';
 import { twMerge } from 'tailwind-merge';
+import Link from 'next/link';
 
 const EMOJIS = [
   '🌻',
@@ -79,7 +80,18 @@ export default async function AuthedHome({ session }: { session: Session }) {
           <UpcomingReminders reminders={reminders} />
         </div>
         <div className={twMerge(cardStyles, 'sm:col-start-3 hidden sm:block')}>
-          Journal Entries
+          <div className="flex items-center justify-between gap-2">
+            <h2 className="font-medium">Journal Entries</h2>
+            <Link
+              href="/journal"
+              className="text-sm text-emerald-800 dark:text-emerald-400 underline"
+            >
+              Add entry
+            </Link>
+          </div>
+          <p className="text-sm font-extralight mt-2">
+            Keep a log of how your plants are doing.
+          </p>
         </div>
       </div>
     </>

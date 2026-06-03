@@ -1,12 +1,16 @@
 import { Button } from '@/app/(shared)/_components/Button';
-import { Bell, Plus } from 'lucide-react';
+import { Bell, NotebookPen, Plus } from 'lucide-react';
 
 export default function ActionButtons() {
   return (
-    <div className="w-full grid grid-cols-2 sm:w-auto gap-4 sm:gap-2">
+    <div className="w-full grid grid-cols-2 sm:grid-cols-3 sm:w-auto gap-4 sm:gap-2">
       <Button variant="primary" href="/plants">
         <Plus className="inline mr-1 -ml-1" />
         <span>Add Plant</span>
+      </Button>
+      <Button variant="secondary" href="/journal">
+        <NotebookPen className="inline mr-1 -ml-1" />
+        <span>Add Journal</span>
       </Button>
       <Button variant="secondary" href="/reminder">
         <Bell className="inline mr-1 -ml-1" />
