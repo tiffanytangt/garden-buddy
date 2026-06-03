@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { GetPlantsResult } from '@/app/plants/_actions/getPlants';
 import { Field, Label, Description } from '@headlessui/react';
 import { Controller, useForm } from 'react-hook-form';
@@ -15,6 +15,8 @@ import PlantDropdown from '@/app/(shared)/_components/PlantDropdown';
 
 type Props = {
   plants: GetPlantsResult[];
+  preselectedPlantId?: number;
+  locked?: boolean;
 };
 type AddJournalEntryInputs = {
   plantId: string;
@@ -24,18 +26,48 @@ type AddJournalEntryInputs = {
   type: string;
 };
 
-export default function JournalEntryForm({ plants }: Props) {
+const requiredMark = <span className="text-yellow-600">*</span>;
+
+export default function JournalEntryForm({
+  plants,
+  preselectedPlantId,
+  locked,
+}: Props) {
   const {
     register,
     control,
     trigger,
+    watch,
     getValues,
     formState: { errors, isDirty },
-  } = useForm<AddJournalEntryInputs>();
+  } = useForm<AddJournalEntryInputs>({
+    defaultValues: {
+      plantId: preselectedPlantId ? String(preselectedPlantId) : '',
+    },
+  });
 
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const disableFields = submitting;
+
+  // Preview the photos the user picked before they're uploaded
+  const photos = watch('photos');
+  const previews = useMemo(
+    () =>
+      photos
+        ? Array.from(photos)
+            .filter((file) => file.size > 0)
+            .map((file) => ({
+              name: file.name,
+              url: URL.createObjectURL(file),
+            }))
+        : [],
+    [photos]
+  );
+  useEffect(() => {
+    // Avoid leaking object URLs when the selection changes / unmounts
+    return () => previews.forEach((preview) => URL.revokeObjectURL(preview.url));
+  }, [previews]);
 
   return (
     <form
@@ -63,11 +95,12 @@ export default function JournalEntryForm({ plants }: Props) {
         }
         setSubmitting(false);
         // redirect() throws internally, so it must stay outside the try/catch
-        if (entry?.plantId) redirect('/plants/' + entry.plantId);
+        if (entry?.plant?.slug)
+          redirect('/plants/' + entry.plant.slug + '?newEntry=' + entry.id);
       }}
     >
       <Field disabled={disableFields}>
-        <Label>Plant</Label>
+        <Label>Plant {requiredMark}</Label>
         {errors.plantId && (
           <Description className="text-sm flex items-center gap-1 py-2 text-yellow-600">
             <ExclamationCircleIcon className="size-4" />
@@ -78,37 +111,24 @@ export default function JournalEntryForm({ plants }: Props) {
           name="plantId"
           control={control}
           rules={{ required: 'Required' }}
-          render={({ field }) => (
-            <PlantDropdown
-              value={field.value}
-              onChange={field.onChange}
-              plants={plants}
-            />
-          )}
+          render={({ field }) =>
+            locked ? (
+              <PlantDropdown readonly value={field.value} plants={plants} />
+            ) : (
+              <PlantDropdown
+                value={field.value}
+                onChange={field.onChange}
+                plants={plants}
+              />
+            )
+          }
         />
       </Field>
       <Field disabled={disableFields}>
-        <Label>Note</Label>
-        <Description className="text-sm font-extralight">optional</Description>
-        <TextArea
-          className="block w-full disabled:bg-gray-200 text-black h-32"
-          {...register('description')}
-        />
-      </Field>
-      <Field disabled={disableFields}>
-        <Description>
-          <small>Upload picture(s)</small>
+        <Label>Date {requiredMark}</Label>
+        <Description className="text-sm font-extralight">
+          Defaults to today
         </Description>
-        <Input
-          {...register('photos')}
-          type="file"
-          accept="image/*;capture=camera"
-          className="block w-full"
-          multiple
-        />
-      </Field>
-      <Field disabled={disableFields}>
-        <Label>Date</Label>
         {errors.timestamp && (
           <Description className="text-sm flex items-center gap-1 py-2 text-yellow-600">
             <ExclamationCircleIcon className="size-4" />
@@ -120,6 +140,38 @@ export default function JournalEntryForm({ plants }: Props) {
           defaultValue={new Date().toISOString().split('T')[0]}
           className="block w-full disabled:bg-gray-200 text-black"
           {...register('timestamp', { required: 'Required' })}
+        />
+      </Field>
+      <Field disabled={disableFields}>
+        <Label>Photos</Label>
+        <Description className="text-sm font-extralight">optional</Description>
+        <Input
+          {...register('photos')}
+          type="file"
+          accept="image/*;capture=camera"
+          className="block w-full"
+          multiple
+        />
+        {previews.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-2">
+            {previews.map((preview) => (
+              // eslint-disable-next-line @next/next/no-img-element -- blob: URLs aren't optimizable by next/image
+              <img
+                key={preview.url}
+                src={preview.url}
+                alt={preview.name}
+                className="size-16 object-cover rounded"
+              />
+            ))}
+          </div>
+        )}
+      </Field>
+      <Field disabled={disableFields}>
+        <Label>Note</Label>
+        <Description className="text-sm font-extralight">optional</Description>
+        <TextArea
+          className="block w-full disabled:bg-gray-200 text-black h-32"
+          {...register('description')}
         />
       </Field>
 
@@ -134,7 +186,7 @@ export default function JournalEntryForm({ plants }: Props) {
           variant="primary"
           className=" mt-4"
           type="submit"
-          disabled={disableFields || !isDirty}
+          disabled={disableFields || (!locked && !isDirty)}
         >
           {submitting ? 'Saving…' : 'Save Journal Entry'}
         </Button>
