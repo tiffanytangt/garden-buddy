@@ -13,6 +13,7 @@ import { useState } from 'react';
 
 const AddPlantModal = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   return (
     <>
@@ -25,16 +26,29 @@ const AddPlantModal = () => {
             <DialogTitle>New plant</DialogTitle>
             <form
               action={async (formData) => {
+                setSubmitError(null);
                 const photo = formData.get('photo') as File;
                 if (photo?.size)
                   formData.set('photo', await compressImage(photo));
-                await addPlant(formData);
+                try {
+                  await addPlant(formData);
+                } catch {
+                  setSubmitError(
+                    'Something went wrong while saving. Please try again.'
+                  );
+                  return;
+                }
                 setIsOpen(false);
               }}
               className="flex flex-col gap-8"
             >
               <AddPlantFormFields onCancel={() => setIsOpen(false)} />
             </form>
+            {submitError && (
+              <Description className="text-sm py-2 text-yellow-600">
+                {submitError}
+              </Description>
+            )}
           </DialogPanel>
         </div>
       </Dialog>
@@ -58,7 +72,6 @@ const AddPlantFormFields = ({ onCancel }: { onCancel: () => void }) => {
 
   return (
     <div className="flex flex-col gap-8">
-      dirty? {isDirty ? 'yes' : 'no'}
       <Field disabled={pending}>
         <Label>Plant name:</Label>
         <Input
@@ -81,7 +94,7 @@ const AddPlantFormFields = ({ onCancel }: { onCancel: () => void }) => {
       </Field>
       <div className="flex flex-col gap-4">
         <Button variant="primary" type="submit" disabled={pending}>
-          Save Plant
+          {pending ? 'Saving…' : 'Save Plant'}
         </Button>
         <Button
           variant="outline"

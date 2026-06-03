@@ -15,7 +15,7 @@ import { updatePlant } from '../_actions/updatePlant';
 import { compressImage } from '@/lib/compressImage';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { useFormStatus } from 'react-dom';
+import { useState } from 'react';
 
 function UpdatePlant({
   isOpen,
@@ -29,11 +29,12 @@ function UpdatePlant({
   const {
     register,
     trigger,
-    formState: { errors, isSubmitting, isDirty, isValidating },
+    formState: { errors, isDirty, isValidating },
   } = useForm();
 
-  const { pending } = useFormStatus();
-  const disableSubmit = isValidating || isSubmitting || !isDirty;
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const disableSubmit = isValidating || submitting || !isDirty;
   return (
     <Dialog open={isOpen} className="relative z-50" onClose={onClose}>
       <div className="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
@@ -53,15 +54,26 @@ function UpdatePlant({
             className="flex flex-col gap-8"
             action={async (formData) => {
               if ((await trigger()) == false) return;
-              const photo = formData.get('photo') as File;
-              if (photo?.size)
-                formData.set('photo', await compressImage(photo));
-              await updatePlant(plant.id, formData);
+              setSubmitError(null);
+              setSubmitting(true);
+              try {
+                const photo = formData.get('photo') as File;
+                if (photo?.size)
+                  formData.set('photo', await compressImage(photo));
+                await updatePlant(plant.id, formData);
+              } catch {
+                setSubmitError(
+                  'Something went wrong while saving. Please try again.'
+                );
+                setSubmitting(false);
+                return;
+              }
+              setSubmitting(false);
               onClose();
             }}
           >
             <div className="flex flex-col gap-8">
-              <Field disabled={pending}>
+              <Field disabled={submitting}>
                 <Label>Plant name:</Label>
                 {errors.name && (
                   <Description className="text-red-500">
@@ -76,7 +88,7 @@ function UpdatePlant({
                   defaultValue={plant.displayName}
                 />
               </Field>
-              <Field disabled={pending}>
+              <Field disabled={submitting}>
                 <Input
                   {...register('photo')}
                   name="photo"
@@ -92,7 +104,7 @@ function UpdatePlant({
                   type="submit"
                   disabled={disableSubmit}
                 >
-                  Save Plant
+                  {submitting ? 'Saving…' : 'Save Plant'}
                 </Button>
                 <Button
                   className="p-2 bg-slate-800 text-white disabled:text-gray-400"
@@ -102,11 +114,16 @@ function UpdatePlant({
                     )
                       onClose();
                   }}
-                  disabled={pending}
+                  disabled={submitting}
                 >
                   Cancel
                 </Button>
               </div>
+              {submitError && (
+                <Description className="text-sm py-2 text-yellow-600">
+                  {submitError}
+                </Description>
+              )}
             </div>
           </form>
         </DialogPanel>

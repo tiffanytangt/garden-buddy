@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { GetPlantsResult } from '@/app/plants/_actions/getPlants';
 import { Field, Label, Description } from '@headlessui/react';
 import { Controller, useForm } from 'react-hook-form';
@@ -30,10 +30,12 @@ export default function JournalEntryForm({ plants }: Props) {
     control,
     trigger,
     getValues,
-    formState: { errors, isSubmitting, isDirty },
+    formState: { errors, isDirty },
   } = useForm<AddJournalEntryInputs>();
 
-  const disableFields = isSubmitting;
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const disableFields = submitting;
 
   return (
     <form
@@ -42,14 +44,25 @@ export default function JournalEntryForm({ plants }: Props) {
         if ((await trigger()) == false) return;
         // We need to set plantId because the Combobox field is not actually an input
         formData.set('plantId', getValues('plantId'));
-        // Compress images client-side before upload to keep the payload small
-        const photos = formData.getAll('photos') as File[];
-        formData.delete('photos');
-        for (const photo of photos) {
-          if (photo.size > 0)
-            formData.append('photos', await compressImage(photo));
+        setSubmitError(null);
+        setSubmitting(true);
+        let entry;
+        try {
+          // Compress images client-side before upload to keep the payload small
+          const photos = formData.getAll('photos') as File[];
+          formData.delete('photos');
+          for (const photo of photos) {
+            if (photo.size > 0)
+              formData.append('photos', await compressImage(photo));
+          }
+          entry = await addJournalEntry(formData);
+        } catch {
+          setSubmitError('Something went wrong while saving. Please try again.');
+          setSubmitting(false);
+          return;
         }
-        const entry = await addJournalEntry(formData);
+        setSubmitting(false);
+        // redirect() throws internally, so it must stay outside the try/catch
         if (entry?.plantId) redirect('/plants/' + entry.plantId);
       }}
     >
@@ -111,13 +124,19 @@ export default function JournalEntryForm({ plants }: Props) {
       </Field>
 
       <div className="flex flex-col gap-4">
+        {submitError && (
+          <Description className="text-sm flex items-center gap-1 py-2 text-yellow-600">
+            <ExclamationCircleIcon className="size-4" />
+            {submitError}
+          </Description>
+        )}
         <Button
           variant="primary"
           className=" mt-4"
           type="submit"
           disabled={disableFields || !isDirty}
         >
-          Save Journal Entry
+          {submitting ? 'Saving…' : 'Save Journal Entry'}
         </Button>
       </div>
     </form>
