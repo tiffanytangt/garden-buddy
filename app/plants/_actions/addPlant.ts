@@ -40,10 +40,13 @@ export async function addPlant(formData: FormData) {
   try {
     await createPlant();
   } catch (e: unknown) {
+    // A slug collision (P2002) is recoverable — retry with a hashed slug and
+    // let that attempt's own outcome stand. Anything else is a real failure.
     if ((e as PrismaClientKnownRequestError).code == 'P2002') {
       await createPlant({ dedupeSlug: true });
+    } else {
+      throw e;
     }
-    throw e;
   }
   revalidatePath('/plants');
   revalidatePath('/');
