@@ -9,16 +9,22 @@ import {
   Label,
 } from '@headlessui/react';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
-const AddPlantModal = () => {
+const AddPlantModal = ({
+  trigger,
+  className,
+}: {
+  trigger?: ReactNode;
+  className?: string;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   return (
     <>
-      <button onClick={() => setIsOpen(true)}>
-        <PlusCircleIcon className="size-16 text-emerald-800/10" />
+      <button onClick={() => setIsOpen(true)} className={className}>
+        {trigger ?? <PlusCircleIcon className="size-16 text-emerald-800/10" />}
       </button>
       <Dialog open={isOpen} className="relative z-50" onClose={() => null}>
         <div className="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
