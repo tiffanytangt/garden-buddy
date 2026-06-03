@@ -5,6 +5,7 @@ import React from 'react';
 import Image from 'next/image';
 import { SlideImage } from 'yet-another-react-lightbox';
 import { daysBetween } from '@/lib/util/daysBetween';
+import { usePathname, useRouter } from 'next/navigation';
 
 type Props = {
   entries: {
@@ -19,11 +20,24 @@ type Props = {
       };
     }[];
   }[];
+  highlightEntryId?: number;
 };
 
-function JournalGallery({ entries }: Props) {
+function JournalGallery({ entries, highlightEntryId }: Props) {
   const [isGalleryOpen, setIsGalleryOpen] = React.useState(false);
   const [currentImage, setCurrentImage] = React.useState(0);
+
+  // Scroll a just-added entry into view, then strip ?newEntry so a refresh
+  // doesn't re-trigger it.
+  const newEntryRef = React.useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const pathname = usePathname();
+  React.useEffect(() => {
+    if (!highlightEntryId) return;
+    newEntryRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const timeout = setTimeout(() => router.replace(pathname), 2500);
+    return () => clearTimeout(timeout);
+  }, [highlightEntryId, router, pathname]);
 
   const images = entries.reduce(
     (acc, journalEntry) => {
@@ -45,6 +59,7 @@ function JournalGallery({ entries }: Props) {
       {entries.map((journalEntry) => (
         <div
           key={`journal-entry-${journalEntry.id}`}
+          ref={journalEntry.id === highlightEntryId ? newEntryRef : undefined}
           className="bg-white dark:bg-opacity-25 p-2 rounded-md"
         >
           <div className="flex gap-2 items-end justify-center">
