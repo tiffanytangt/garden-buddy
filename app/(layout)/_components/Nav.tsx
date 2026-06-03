@@ -11,6 +11,7 @@ import { usePathname } from 'next/navigation';
 import NavItem from './NavItem';
 import { useClickOutside } from '@/app/(shared)/_hooks/clickOutside';
 import SlideMenu from '../../(shared)/_components/SlideMenu';
+import VersionBadge from './VersionBadge';
 import {
   Calendar,
   Leaf,
@@ -92,6 +93,9 @@ const NavBar = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
                 </li>
               );
             })}
+            <li className="flex justify-center w-full">
+              <VersionBadge />
+            </li>
           </div>
         </div>
       </SlideMenu>
@@ -132,6 +136,9 @@ const NavBar = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
           {getAuthItems(isLoggedIn).map((props) => (
             <NavItem key={props.id} {...props} desktop />
           ))}
+          <li className="py-2">
+            <VersionBadge />
+          </li>
         </ul>
       </nav>
     </>
