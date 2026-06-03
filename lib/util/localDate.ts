@@ -15,3 +15,13 @@ export function todayLocalDate(): string {
 export function nowLocalDateTime(): string {
   return shiftToLocal(new Date()).toISOString().slice(0, 16);
 }
+
+/** Format an existing date as `YYYY-MM-DDTHH:mm` for <input type="datetime-local">. */
+export function toLocalDateTimeValue(date: Date): string {
+  return shiftToLocal(date).toISOString().slice(0, 16);
+}
+
+/** Format an existing date as `YYYY-MM-DD` for <input type="date">. */
+export function toLocalDateValue(date: Date): string {
+  return shiftToLocal(date).toISOString().slice(0, 10);
+}

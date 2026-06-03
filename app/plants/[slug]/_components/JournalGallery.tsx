@@ -8,6 +8,7 @@ import { daysBetween } from '@/lib/util/daysBetween';
 import { usePathname, useRouter } from 'next/navigation';
 import { Trash2 } from 'lucide-react';
 import { deleteJournalEntry } from '@/app/journal/_actions/deleteJournalEntry';
+import EditJournalEntryModal from './EditJournalEntryModal';
 
 type Props = {
   entries: {
@@ -103,15 +104,18 @@ function JournalGallery({ entries, highlightEntryId }: Props) {
               {journalEntry.entryDate.toLocaleDateString()} (
               {daysBetween(journalEntry.entryDate, firstDate)} days)
             </div>
-            <button
-              type="button"
-              aria-label="Delete journal entry"
-              disabled={isDeleting}
-              onClick={() => handleDelete(journalEntry.id)}
-              className="text-gray-400 transition-colors hover:text-red-600 disabled:opacity-50"
-            >
-              <Trash2 className="size-4" />
-            </button>
+            <div className="flex items-center gap-3">
+              <EditJournalEntryModal entry={journalEntry} />
+              <button
+                type="button"
+                aria-label="Delete journal entry"
+                disabled={isDeleting}
+                onClick={() => handleDelete(journalEntry.id)}
+                className="text-gray-400 transition-colors hover:text-red-600 disabled:opacity-50"
+              >
+                <Trash2 className="size-4" />
+              </button>
+            </div>
           </div>
         </div>
       ))}

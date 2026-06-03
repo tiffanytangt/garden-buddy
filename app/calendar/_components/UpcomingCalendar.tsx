@@ -1,5 +1,6 @@
 import { Button } from '@/app/(shared)/_components/Button';
 import DeleteReminderButton from '@/app/reminder/_components/DeleteReminderButton';
+import EditReminderModal from '@/app/reminder/_components/EditReminderModal';
 
 type Props = {
   reminders: {
@@ -70,7 +71,8 @@ export default function UpcomingCalendar({ reminders }: Props) {
                           </div>
                           <div className="text-sm italic">{r.description}</div>
                         </div>
-                        <div className="opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
+                        <div className="flex items-center gap-3 opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
+                          <EditReminderModal reminder={r} />
                           <DeleteReminderButton id={r.id} title={r.title} />
                         </div>
                       </div>
