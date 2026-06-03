@@ -101,8 +101,15 @@ function JournalGallery({ entries, highlightEntryId }: Props) {
           <div className="italic">{journalEntry.description}</div>
           <div className="mt-1 flex items-center justify-between">
             <div className="text-sm">
-              {journalEntry.entryDate.toLocaleDateString()} (
-              {daysBetween(journalEntry.entryDate, firstDate)} days)
+              {journalEntry.entryDate.toLocaleDateString()}
+              {firstDate &&
+                daysBetween(journalEntry.entryDate, firstDate) > 0 && (
+                  <span className="text-gray-400">
+                    {' · '}
+                    {daysBetween(journalEntry.entryDate, firstDate)} days since
+                    first entry
+                  </span>
+                )}
             </div>
             <div className="flex items-center gap-3">
               <EditJournalEntryModal entry={journalEntry} />
