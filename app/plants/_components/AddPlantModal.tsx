@@ -25,6 +25,9 @@ const AddPlantModal = () => {
             <DialogTitle>New plant</DialogTitle>
             <form
               action={async (formData) => {
+                const photo = formData.get('photo') as File;
+                if (photo?.size)
+                  formData.set('photo', await compressImage(photo));
                 await addPlant(formData);
                 setIsOpen(false);
               }}
@@ -43,6 +46,7 @@ export default AddPlantModal;
 
 import { useFormStatus } from 'react-dom';
 import { addPlant } from '../_actions/addPlant';
+import { compressImage } from '@/lib/compressImage';
 import { Input } from '@/app/(shared)/_components/form';
 import { Button } from '@/app/(shared)/_components/Button';
 import { useForm, useFormState } from 'react-hook-form';

@@ -12,6 +12,7 @@ import {
 import Image from 'next/image';
 import { Plant } from '@prisma/client';
 import { updatePlant } from '../_actions/updatePlant';
+import { compressImage } from '@/lib/compressImage';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { useFormStatus } from 'react-dom';
@@ -52,6 +53,9 @@ function UpdatePlant({
             className="flex flex-col gap-8"
             action={async (formData) => {
               if ((await trigger()) == false) return;
+              const photo = formData.get('photo') as File;
+              if (photo?.size)
+                formData.set('photo', await compressImage(photo));
               await updatePlant(plant.id, formData);
               onClose();
             }}

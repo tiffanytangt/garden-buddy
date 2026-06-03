@@ -6,6 +6,7 @@ import { Field, Label, Description } from '@headlessui/react';
 import { Controller, useForm } from 'react-hook-form';
 import { ExclamationCircleIcon } from '@heroicons/react/16/solid';
 import { addJournalEntry } from '../_actions/addJournalEntry';
+import { compressImage } from '@/lib/compressImage';
 import { ErrorMessage } from '@hookform/error-message';
 import { redirect } from 'next/navigation';
 import { TextArea, Input } from '@/app/(shared)/_components/form';
@@ -41,6 +42,13 @@ export default function JournalEntryForm({ plants }: Props) {
         if ((await trigger()) == false) return;
         // We need to set plantId because the Combobox field is not actually an input
         formData.set('plantId', getValues('plantId'));
+        // Compress images client-side before upload to keep the payload small
+        const photos = formData.getAll('photos') as File[];
+        formData.delete('photos');
+        for (const photo of photos) {
+          if (photo.size > 0)
+            formData.append('photos', await compressImage(photo));
+        }
         const entry = await addJournalEntry(formData);
         if (entry?.plantId) redirect('/plants/' + entry.plantId);
       }}
