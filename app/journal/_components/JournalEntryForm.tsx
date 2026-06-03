@@ -41,7 +41,7 @@ export default function JournalEntryForm({
     watch,
     getValues,
     setValue,
-    formState: { errors, isDirty },
+    formState: { errors },
   } = useForm<AddJournalEntryInputs>({
     defaultValues: {
       plantId: preselectedPlantId ? String(preselectedPlantId) : '',
@@ -193,7 +193,7 @@ export default function JournalEntryForm({
           variant="primary"
           className=" mt-4"
           type="submit"
-          disabled={disableFields || (!locked && !isDirty)}
+          disabled={disableFields}
         >
           {submitting ? 'Saving…' : 'Save Journal Entry'}
         </Button>

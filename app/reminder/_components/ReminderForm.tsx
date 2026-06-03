@@ -30,7 +30,7 @@ export default function ReminderSteps({ plants }: Props) {
     trigger,
     setError,
     setValue,
-    formState: { errors, isSubmitting, isDirty },
+    formState: { errors, isSubmitting },
   } = useForm<AddReminderInputs>();
 
   // Prefill the reminder time with the user's local "now" after mount. A bare
@@ -117,11 +117,7 @@ export default function ReminderSteps({ plants }: Props) {
         >
           Back
         </Button>
-        <Button
-          variant="primary"
-          type="submit"
-          disabled={disableFields || !isDirty}
-        >
+        <Button variant="primary" type="submit" disabled={disableFields}>
           Save
         </Button>
       </div>
